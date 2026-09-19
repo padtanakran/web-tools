@@ -1,7 +1,6 @@
 /**
  * app.js — Home page logic (POS UI Edition)
- * Loads tools.json and categories.json, renders POS square tool cards,
- * handles search and category filtering in Thai.
+ * Loads tools.json and categories.json, renders POS square tool cards.
  */
 
 (function () {
@@ -10,8 +9,6 @@
   // ---- State ----
   let allTools = [];
   let allCategories = [];
-  let activeCategory = 'all';
-  let searchQuery = '';
 
   // ---- Init ----
   async function init() {
@@ -30,64 +27,8 @@
       return;
     }
 
-    buildCategoryTabs();
-    renderRecentTools();
     renderTools();
-    bindSearch();
     bindInstallBanner();
-  }
-
-  // ---- Category tabs ----
-  function buildCategoryTabs() {
-    const container = $id('category-tabs');
-    if (!container) return;
-
-    // "All" tab in Thai
-    const allTab = makeTab('all', 'ทั้งหมด');
-    container.appendChild(allTab);
-
-    allCategories.forEach(cat => {
-      container.appendChild(makeTab(cat.id, cat.label));
-    });
-  }
-
-  function makeTab(id, label) {
-    const btn = document.createElement('button');
-    btn.className = 'filter-tab' + (id === 'all' ? ' active' : '');
-    btn.textContent = label;
-    btn.dataset.category = id;
-    btn.setAttribute('aria-pressed', id === 'all' ? 'true' : 'false');
-    btn.addEventListener('click', () => {
-      activeCategory = id;
-      $qsa('.filter-tab').forEach(t => {
-        t.classList.toggle('active', t.dataset.category === id);
-        t.setAttribute('aria-pressed', t.dataset.category === id ? 'true' : 'false');
-      });
-      renderTools();
-    });
-    return btn;
-  }
-
-  // ---- Search ----
-  function bindSearch() {
-    const input = $id('search-input');
-    if (!input) return;
-    input.addEventListener('input', () => {
-      searchQuery = input.value.trim().toLowerCase();
-      renderTools();
-    });
-  }
-
-  // ---- Filter logic ----
-  function getFilteredTools() {
-    return allTools.filter(tool => {
-      const matchesCat = activeCategory === 'all' || tool.category === activeCategory;
-      const matchesSearch = !searchQuery
-        || tool.name.toLowerCase().includes(searchQuery)
-        || tool.description.toLowerCase().includes(searchQuery)
-        || tool.category.toLowerCase().includes(searchQuery);
-      return matchesCat && matchesSearch;
-    });
   }
 
   // ---- Render tools grid ----
@@ -95,28 +36,20 @@
     const grid = $id('tools-grid');
     if (!grid) return;
 
-    const filtered = getFilteredTools();
     grid.innerHTML = '';
 
-    if (filtered.length === 0) {
+    if (allTools.length === 0) {
       grid.innerHTML = `
         <div class="empty-state" style="grid-column:1/-1">
-          ${getIcon('search')}
-          <p>ไม่พบเครื่องมือที่ตรงกับ "<strong>${escapeHtml(searchQuery || getCategoryLabel(activeCategory))}</strong>"</p>
+          <p>ไม่พบรายการเครื่องมือ</p>
         </div>`;
-      const countEl = $id('tools-count');
-      if (countEl) countEl.textContent = '0 รายการ';
       return;
     }
 
-    filtered.forEach(tool => {
+    allTools.forEach(tool => {
       const card = buildToolCard(tool);
       grid.appendChild(card);
     });
-
-    // Update visible count in Thai
-    const countEl = $id('tools-count');
-    if (countEl) countEl.textContent = `${filtered.length} รายการ`;
   }
 
   // ---- Tool card builder (Square POS Tile) ----
@@ -151,32 +84,6 @@
     return card;
   }
 
-  // ---- Recent tools ----
-  function renderRecentTools() {
-    const section = $id('recent-section');
-    const grid = $id('recent-grid');
-    if (!section || !grid) return;
-
-    const recentIds = getRecentTools();
-    if (recentIds.length === 0) {
-      section.classList.add('hidden');
-      return;
-    }
-
-    const recentTools = recentIds
-      .map(id => allTools.find(t => t.id === id))
-      .filter(Boolean);
-
-    if (recentTools.length === 0) {
-      section.classList.add('hidden');
-      return;
-    }
-
-    section.classList.remove('hidden');
-    grid.innerHTML = '';
-    recentTools.forEach(tool => grid.appendChild(buildToolCard(tool)));
-  }
-
   // ---- Install banner ----
   function bindInstallBanner() {
     const banner = $id('install-banner');
@@ -188,7 +95,6 @@
     const dismissed = lsGet('tools-hub:install-dismissed', false);
     if (dismissed) return;
 
-    // Show banner when PWA install event fires
     document.addEventListener('pwa-installable', () => {
       banner.classList.remove('hidden');
     });
@@ -206,7 +112,6 @@
 
   // ---- Helpers ----
   function getCategoryLabel(id) {
-    if (id === 'all') return 'ทั้งหมด';
     const cat = allCategories.find(c => c.id === id);
     return cat ? cat.label : id;
   }
