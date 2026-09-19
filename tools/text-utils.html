@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Utilities — Tools Hub</title>
+  <meta name="description" content="Count words and characters, convert case, remove extra whitespace, encode/decode, and more text tools.">
+  <meta name="theme-color" content="#0d1017">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="icon" type="image/jpeg" href="../assets/icons/icon-192.jpg">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .stat-box {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-sm) var(--space-md);
+      text-align: center;
+    }
+    .stat-value {
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--primary);
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <header class="site-header" role="banner">
+    <div class="container">
+      <a href="../index.html" class="header-back" aria-label="Back to Tools Hub">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Tools Hub
+      </a>
+      <a href="../index.html" class="site-logo" aria-label="Tools Hub home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        Tools <span>Hub</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="main-content" class="page-main">
+    <div class="container">
+      <div class="page-header">
+        <h1 class="page-title">Text Utilities</h1>
+        <p class="page-description">Analyze text, convert case, clean whitespace, encode/decode, and more. All in-browser.</p>
+      </div>
+
+      <!-- Input -->
+      <div class="card mb-md">
+        <div class="flex-between mb-sm">
+          <label class="form-label" for="text-input">Your text</label>
+          <div class="flex gap-sm">
+            <button id="copy-input-btn" class="btn btn-secondary btn-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy
+            </button>
+            <button id="clear-input-btn" class="btn btn-secondary btn-sm">Clear</button>
+          </div>
+        </div>
+        <textarea id="text-input" class="form-textarea" style="min-height:160px;" placeholder="Paste or type your text here..."></textarea>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-box"><div class="stat-value" id="stat-words">0</div><div class="stat-label">Words</div></div>
+        <div class="stat-box"><div class="stat-value" id="stat-chars">0</div><div class="stat-label">Characters</div></div>
+        <div class="stat-box"><div class="stat-value" id="stat-chars-no-space">0</div><div class="stat-label">Chars (no spaces)</div></div>
+        <div class="stat-box"><div class="stat-value" id="stat-lines">0</div><div class="stat-label">Lines</div></div>
+        <div class="stat-box"><div class="stat-value" id="stat-sentences">0</div><div class="stat-label">Sentences</div></div>
+        <div class="stat-box"><div class="stat-value" id="stat-read-time">0</div><div class="stat-label">Read time (min)</div></div>
+      </div>
+
+      <!-- Transforms -->
+      <div class="card mb-md">
+        <h2 class="section-title">Case Conversion</h2>
+        <div class="btn-group">
+          <button class="btn btn-secondary transform-btn" data-fn="upper">UPPERCASE</button>
+          <button class="btn btn-secondary transform-btn" data-fn="lower">lowercase</button>
+          <button class="btn btn-secondary transform-btn" data-fn="title">Title Case</button>
+          <button class="btn btn-secondary transform-btn" data-fn="sentence">Sentence case</button>
+          <button class="btn btn-secondary transform-btn" data-fn="camel">camelCase</button>
+          <button class="btn btn-secondary transform-btn" data-fn="snake">snake_case</button>
+          <button class="btn btn-secondary transform-btn" data-fn="kebab">kebab-case</button>
+          <button class="btn btn-secondary transform-btn" data-fn="alternating">aLtErNaTiNg</button>
+        </div>
+      </div>
+
+      <div class="card mb-md">
+        <h2 class="section-title">Clean &amp; Format</h2>
+        <div class="btn-group">
+          <button class="btn btn-secondary transform-btn" data-fn="trim-spaces">Remove extra spaces</button>
+          <button class="btn btn-secondary transform-btn" data-fn="trim-lines">Remove blank lines</button>
+          <button class="btn btn-secondary transform-btn" data-fn="remove-newlines">Remove line breaks</button>
+          <button class="btn btn-secondary transform-btn" data-fn="sort-lines">Sort lines A-Z</button>
+          <button class="btn btn-secondary transform-btn" data-fn="sort-lines-desc">Sort lines Z-A</button>
+          <button class="btn btn-secondary transform-btn" data-fn="dedup-lines">Remove duplicate lines</button>
+          <button class="btn btn-secondary transform-btn" data-fn="reverse">Reverse text</button>
+          <button class="btn btn-secondary transform-btn" data-fn="reverse-lines">Reverse lines</button>
+        </div>
+      </div>
+
+      <div class="card mb-md">
+        <h2 class="section-title">Encode / Decode</h2>
+        <div class="btn-group">
+          <button class="btn btn-secondary transform-btn" data-fn="encode-url">URL encode</button>
+          <button class="btn btn-secondary transform-btn" data-fn="decode-url">URL decode</button>
+          <button class="btn btn-secondary transform-btn" data-fn="encode-base64">Base64 encode</button>
+          <button class="btn btn-secondary transform-btn" data-fn="decode-base64">Base64 decode</button>
+          <button class="btn btn-secondary transform-btn" data-fn="encode-html">HTML encode</button>
+          <button class="btn btn-secondary transform-btn" data-fn="decode-html">HTML decode</button>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div id="output-section" class="card hidden">
+        <div class="flex-between mb-sm">
+          <h2 class="section-title" style="margin-bottom:0;border:none;">Result</h2>
+          <button id="copy-output-btn" class="btn btn-secondary btn-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy result
+          </button>
+        </div>
+        <textarea id="text-output" class="form-textarea" style="min-height:120px;" readonly></textarea>
+        <button id="use-output-btn" class="btn btn-secondary btn-sm mt-sm">Use as input</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container"><p>Tools Hub &mdash; offline-first, no tracking, no sign-in.</p></div>
+  </footer>
+
+  <script src="../assets/js/common.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      registerServiceWorker('../sw.js');
+      recordToolVisit('text-utils');
+
+      const input = $id('text-input');
+      const output = $id('text-output');
+
+      // ---- Stats ----
+      function updateStats() {
+        const text = input.value;
+        const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+        const chars = text.length;
+        const charsNoSpace = text.replace(/\s/g, '').length;
+        const lines = text === '' ? 0 : text.split('\n').length;
+        const sentences = (text.match(/[.!?]+/g) || []).length;
+        const readTime = Math.max(1, Math.round(words / 200));
+
+        $id('stat-words').textContent = words.toLocaleString();
+        $id('stat-chars').textContent = chars.toLocaleString();
+        $id('stat-chars-no-space').textContent = charsNoSpace.toLocaleString();
+        $id('stat-lines').textContent = lines.toLocaleString();
+        $id('stat-sentences').textContent = sentences.toLocaleString();
+        $id('stat-read-time').textContent = readTime;
+      }
+
+      input.addEventListener('input', updateStats);
+
+      // ---- Transform functions ----
+      const transforms = {
+        'upper': t => t.toUpperCase(),
+        'lower': t => t.toLowerCase(),
+        'title': t => t.replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()),
+        'sentence': t => t.toLowerCase().replace(/(^\s*\w|[.!?]\s+\w)/g, c => c.toUpperCase()),
+        'camel': t => t.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (_, c) => c.toUpperCase()),
+        'snake': t => t.toLowerCase().trim().replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_|_$/g,''),
+        'kebab': t => t.toLowerCase().trim().replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g,''),
+        'alternating': t => t.split('').map((c,i) => i%2===0 ? c.toLowerCase() : c.toUpperCase()).join(''),
+        'trim-spaces': t => t.replace(/[ \t]+/g, ' ').split('\n').map(l=>l.trim()).join('\n'),
+        'trim-lines': t => t.split('\n').filter(l=>l.trim()!=='').join('\n'),
+        'remove-newlines': t => t.replace(/\n+/g, ' ').replace(/\s+/g,' ').trim(),
+        'sort-lines': t => t.split('\n').sort((a,b)=>a.localeCompare(b)).join('\n'),
+        'sort-lines-desc': t => t.split('\n').sort((a,b)=>b.localeCompare(a)).join('\n'),
+        'dedup-lines': t => [...new Set(t.split('\n'))].join('\n'),
+        'reverse': t => t.split('').reverse().join(''),
+        'reverse-lines': t => t.split('\n').reverse().join('\n'),
+        'encode-url': t => encodeURIComponent(t),
+        'decode-url': t => { try { return decodeURIComponent(t); } catch { return t; } },
+        'encode-base64': t => { try { return btoa(unescape(encodeURIComponent(t))); } catch { return t; } },
+        'decode-base64': t => { try { return decodeURIComponent(escape(atob(t))); } catch { return 'Invalid Base64'; } },
+        'encode-html': t => t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'),
+        'decode-html': t => { const d=document.createElement('div'); d.innerHTML=t; return d.textContent||d.innerText||t; },
+      };
+
+      document.querySelectorAll('.transform-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const text = input.value;
+          const fn = transforms[btn.dataset.fn];
+          if (!fn) return;
+          const result = fn(text);
+          output.value = result;
+          $id('output-section').classList.remove('hidden');
+          output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+      });
+
+      // ---- Copy / Clear / Use ----
+      const copyInputBtn = $id('copy-input-btn');
+      const origCopyHTML = copyInputBtn.innerHTML;
+      copyInputBtn.addEventListener('click', async () => {
+        await copyToClipboard(input.value);
+        showCopiedFeedback(copyInputBtn, origCopyHTML);
+      });
+
+      $id('clear-input-btn').addEventListener('click', () => {
+        input.value = '';
+        updateStats();
+        $id('output-section').classList.add('hidden');
+      });
+
+      const copyOutputBtn = $id('copy-output-btn');
+      const origCopyOutHTML = copyOutputBtn.innerHTML;
+      copyOutputBtn.addEventListener('click', async () => {
+        await copyToClipboard(output.value);
+        showCopiedFeedback(copyOutputBtn, origCopyOutHTML);
+      });
+
+      $id('use-output-btn').addEventListener('click', () => {
+        input.value = output.value;
+        updateStats();
+        input.focus();
+      });
+
+      updateStats();
+    })();
+  </script>
+</body>
+</html>

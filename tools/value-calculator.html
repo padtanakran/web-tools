@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Value Calculator — Tools Hub</title>
+  <meta name="description" content="Score products by price, quality, and quantity to find the one with the best true value.">
+  <meta name="theme-color" content="#0d1017">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="icon" type="image/jpeg" href="../assets/icons/icon-192.jpg">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <header class="site-header" role="banner">
+    <div class="container">
+      <a href="../index.html" class="header-back" aria-label="Back to Tools Hub">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Tools Hub
+      </a>
+      <a href="../index.html" class="site-logo" aria-label="Tools Hub home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        Tools <span>Hub</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="main-content" class="page-main">
+    <div class="container">
+      <div class="page-header">
+        <h1 class="page-title">Value Calculator</h1>
+        <p class="page-description">Score products on price, quality, and quantity to discover the best overall value.</p>
+      </div>
+
+      <!-- Weight settings -->
+      <div class="card mb-md">
+        <div class="section-title">Importance weights (must total 100%)</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="w-price">Price weight (%)</label>
+            <input id="w-price" type="number" class="form-input" value="50" min="0" max="100">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="w-quality">Quality weight (%)</label>
+            <input id="w-quality" type="number" class="form-input" value="30" min="0" max="100">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="w-quantity">Quantity weight (%)</label>
+            <input id="w-quantity" type="number" class="form-input" value="20" min="0" max="100">
+          </div>
+        </div>
+        <p class="text-muted text-sm mt-sm">Total: <strong id="weight-total">100%</strong></p>
+      </div>
+
+      <!-- Add product -->
+      <div class="card mb-md">
+        <div class="section-title">Add Product</div>
+        <div class="form-row">
+          <div class="form-group" style="flex:2;">
+            <label class="form-label" for="prod-name">Product name</label>
+            <input id="prod-name" type="text" class="form-input" placeholder="e.g. Brand X Shampoo">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="prod-price">Price</label>
+            <input id="prod-price" type="number" class="form-input" placeholder="0.00" min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="prod-quality">Quality (1–10)</label>
+            <input id="prod-quality" type="number" class="form-input" placeholder="7" min="1" max="10">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="prod-qty">Quantity</label>
+            <input id="prod-qty" type="number" class="form-input" placeholder="1" min="0.001" step="any">
+          </div>
+        </div>
+        <button id="add-prod-btn" class="btn btn-secondary mt-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Product
+        </button>
+      </div>
+
+      <!-- Products list & calculate -->
+      <div id="products-section" class="hidden">
+        <div class="card mb-md table-wrap">
+          <table class="data-table" id="products-table">
+            <thead>
+              <tr><th>Product</th><th>Price</th><th>Quality</th><th>Quantity</th><th></th></tr>
+            </thead>
+            <tbody id="products-body"></tbody>
+          </table>
+        </div>
+        <button id="calc-btn" class="btn btn-primary btn-lg btn-block mb-lg">Calculate Best Value</button>
+      </div>
+
+      <!-- Results -->
+      <div id="results-section" class="hidden">
+        <h2 class="section-title">Value Scores</h2>
+        <div class="card table-wrap mb-md">
+          <table class="data-table" id="results-table">
+            <thead>
+              <tr><th>Product</th><th>Value Score</th><th>Verdict</th></tr>
+            </thead>
+            <tbody id="results-body"></tbody>
+          </table>
+        </div>
+        <div id="winner-box" class="result-box"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container"><p>Tools Hub &mdash; offline-first, no tracking, no sign-in.</p></div>
+  </footer>
+
+  <script src="../assets/js/common.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      registerServiceWorker('../sw.js');
+      recordToolVisit('value-calculator');
+
+      let products = [];
+      let nextId = 1;
+
+      function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+      // Weight total live update
+      ['w-price','w-quality','w-quantity'].forEach(id => {
+        $id(id).addEventListener('input', updateWeightTotal);
+      });
+
+      function updateWeightTotal() {
+        const total = safeFloat($id('w-price').value) + safeFloat($id('w-quality').value) + safeFloat($id('w-quantity').value);
+        const el = $id('weight-total');
+        el.textContent = total + '%';
+        el.style.color = total === 100 ? 'var(--success)' : 'var(--warning)';
+      }
+
+      updateWeightTotal();
+
+      $id('add-prod-btn').addEventListener('click', () => {
+        const name = $id('prod-name').value.trim() || `Product ${nextId}`;
+        const price = safeFloat($id('prod-price').value);
+        const quality = clamp(safeFloat($id('prod-quality').value, 5), 1, 10);
+        const qty = safeFloat($id('prod-qty').value, 1) || 1;
+
+        products.push({ id: nextId++, name, price, quality, qty });
+        renderProductsTable();
+        $id('prod-name').value = '';
+        $id('prod-price').value = '';
+        $id('prod-quality').value = '';
+        $id('prod-qty').value = '';
+        $id('prod-name').focus();
+      });
+
+      function renderProductsTable() {
+        const tbody = $id('products-body');
+        tbody.innerHTML = '';
+        products.forEach(p => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${esc(p.name)}</td>
+            <td>${p.price > 0 ? formatNumber(p.price) : '--'}</td>
+            <td>${p.quality}/10</td>
+            <td>${formatNumber(p.qty, 0)}</td>
+            <td><button class="btn btn-danger btn-sm" data-id="${p.id}" aria-label="Remove ${esc(p.name)}">Remove</button></td>
+          `;
+          tbody.appendChild(tr);
+        });
+        $id('products-section').classList.toggle('hidden', products.length < 1);
+        $id('results-section').classList.add('hidden');
+
+        // Bind remove buttons
+        tbody.querySelectorAll('[data-id]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            products = products.filter(p => p.id !== +btn.dataset.id);
+            renderProductsTable();
+          });
+        });
+      }
+
+      $id('calc-btn').addEventListener('click', () => {
+        if (products.length < 2) { alert('Add at least 2 products to compare.'); return; }
+
+        const wp = safeFloat($id('w-price').value) / 100;
+        const wq = safeFloat($id('w-quality').value) / 100;
+        const wn = safeFloat($id('w-quantity').value) / 100;
+
+        if (Math.abs(wp + wq + wn - 1) > 0.01) {
+          alert('Weights must total 100%. Please adjust.');
+          return;
+        }
+
+        const maxPrice = Math.max(...products.map(p => p.price)) || 1;
+        const maxQty = Math.max(...products.map(p => p.qty)) || 1;
+
+        products.forEach(p => {
+          // Price score: lower price = higher score (inverted & normalized)
+          const priceScore = p.price > 0 ? (1 - p.price / maxPrice) * 100 : 0;
+          const qualScore = (p.quality / 10) * 100;
+          const qtyScore = (p.qty / maxQty) * 100;
+          p.valueScore = wp * priceScore + wq * qualScore + wn * qtyScore;
+        });
+
+        const sorted = [...products].sort((a, b) => b.valueScore - a.valueScore);
+        const best = sorted[0];
+
+        const tbody = $id('results-body');
+        tbody.innerHTML = '';
+        sorted.forEach((p, i) => {
+          const tr = document.createElement('tr');
+          if (i === 0) tr.classList.add('best');
+          tr.innerHTML = `
+            <td>${esc(p.name)}</td>
+            <td><strong>${formatNumber(p.valueScore, 1)}</strong> / 100</td>
+            <td>${i === 0 ? '<span class="badge badge-success">Best value</span>' : `<span class="text-muted text-xs">#${i+1}</span>`}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        $id('winner-box').innerHTML = `
+          <div class="result-label">Best value product</div>
+          <div class="result-value">${esc(best.name)}</div>
+          <div class="result-sub">Value score: ${formatNumber(best.valueScore, 1)} / 100</div>
+        `;
+
+        $id('results-section').classList.remove('hidden');
+        $id('results-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    })();
+  </script>
+</body>
+</html>

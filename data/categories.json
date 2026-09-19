@@ -1,0 +1,7 @@
+[
+  { "id": "shopping",     "label": "Shopping",     "description": "Compare prices and find best value" },
+  { "id": "math",         "label": "Math",         "description": "Calculators and unit converters" },
+  { "id": "finance",      "label": "Finance",      "description": "Loan, savings and financial tools" },
+  { "id": "lifestyle",    "label": "Lifestyle",    "description": "Everyday life helpers" },
+  { "id": "productivity", "label": "Productivity", "description": "Text and work utilities" }
+]

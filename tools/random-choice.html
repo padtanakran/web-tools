@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Choice Picker — Tools Hub</title>
+  <meta name="description" content="Add your options and let the tool randomly pick one for you. Save and reuse your lists.">
+  <meta name="theme-color" content="#0d1017">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="icon" type="image/jpeg" href="../assets/icons/icon-192.jpg">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .choice-result-big {
+      font-size: var(--text-2xl);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+    .history-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-xs) 0;
+      border-bottom: 1px solid var(--border);
+      font-size: var(--text-sm);
+    }
+    .history-item:last-child { border-bottom: none; }
+    .history-num {
+      color: var(--text-faint);
+      font-size: var(--text-xs);
+      min-width: 20px;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <header class="site-header" role="banner">
+    <div class="container">
+      <a href="../index.html" class="header-back" aria-label="Back to Tools Hub">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Tools Hub
+      </a>
+      <a href="../index.html" class="site-logo" aria-label="Tools Hub home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        Tools <span>Hub</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="main-content" class="page-main">
+    <div class="container" style="max-width:640px;">
+      <div class="page-header">
+        <h1 class="page-title">Random Choice Picker</h1>
+        <p class="page-description">Add your options, press Pick, and let chance decide. Lists are saved locally.</p>
+      </div>
+
+      <!-- Add option -->
+      <div class="card mb-md">
+        <div class="form-row">
+          <div class="form-group" style="flex:1;">
+            <label class="form-label" for="option-input">Add an option</label>
+            <input id="option-input" type="text" class="form-input" placeholder="e.g. Go hiking">
+          </div>
+          <div style="align-self:flex-end;">
+            <button id="add-option-btn" class="btn btn-secondary">Add</button>
+          </div>
+        </div>
+
+        <!-- Options tags -->
+        <div id="options-tags" class="flex flex-wrap gap-sm mt-md"></div>
+        <p id="options-empty" class="text-muted text-sm mt-sm">Add at least 2 options to get started.</p>
+
+        <div class="flex gap-sm mt-md flex-wrap">
+          <button id="clear-btn" class="btn btn-danger btn-sm">Clear all</button>
+          <button id="save-btn" class="btn btn-secondary btn-sm">Save list</button>
+          <button id="load-btn" class="btn btn-secondary btn-sm">Load saved</button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div id="result-card" class="card mb-md" style="min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+        <p class="text-muted" id="result-placeholder">Your choice will appear here.</p>
+        <div id="result-display" class="hidden">
+          <div class="choice-result-big" id="choice-text"></div>
+        </div>
+      </div>
+
+      <button id="pick-btn" class="btn btn-primary btn-lg btn-block mb-lg" disabled>Pick for me</button>
+
+      <!-- History -->
+      <div id="history-section" class="card hidden">
+        <div class="flex-between mb-sm">
+          <h2 class="section-title" style="margin-bottom:0;border:none;">Pick history</h2>
+          <button id="clear-history-btn" class="btn btn-secondary btn-sm">Clear</button>
+        </div>
+        <div id="history-list"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container"><p>Tools Hub &mdash; offline-first, no tracking, no sign-in.</p></div>
+  </footer>
+
+  <script src="../assets/js/common.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      registerServiceWorker('../sw.js');
+      recordToolVisit('random-choice');
+
+      const OPTIONS_KEY = 'tools-hub:random-choice-options';
+      const HISTORY_KEY = 'tools-hub:random-choice-history';
+
+      let options = lsGet(OPTIONS_KEY, []);
+      let history = lsGet(HISTORY_KEY, []);
+
+      function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+      function renderOptions() {
+        const container = $id('options-tags');
+        const empty = $id('options-empty');
+        container.innerHTML = '';
+
+        if (options.length === 0) {
+          empty.classList.remove('hidden');
+          $id('pick-btn').disabled = true;
+          return;
+        }
+        empty.classList.add('hidden');
+        $id('pick-btn').disabled = options.length < 2;
+
+        options.forEach((opt, i) => {
+          const tag = document.createElement('div');
+          tag.className = 'tag';
+          tag.innerHTML = `${esc(opt)}
+            <button class="tag-remove" data-i="${i}" aria-label="Remove ${esc(opt)}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>`;
+          container.appendChild(tag);
+        });
+
+        container.querySelectorAll('.tag-remove').forEach(btn => {
+          btn.addEventListener('click', () => {
+            options.splice(+btn.dataset.i, 1);
+            lsSet(OPTIONS_KEY, options);
+            renderOptions();
+          });
+        });
+      }
+
+      function addOption() {
+        const val = $id('option-input').value.trim();
+        if (!val || options.includes(val)) return;
+        options.push(val);
+        lsSet(OPTIONS_KEY, options);
+        $id('option-input').value = '';
+        renderOptions();
+      }
+
+      $id('add-option-btn').addEventListener('click', addOption);
+      $id('option-input').addEventListener('keydown', e => { if (e.key === 'Enter') addOption(); });
+
+      $id('clear-btn').addEventListener('click', () => {
+        if (options.length > 0 && !confirm('Clear all options?')) return;
+        options = [];
+        lsSet(OPTIONS_KEY, options);
+        renderOptions();
+      });
+
+      $id('save-btn').addEventListener('click', () => {
+        if (options.length === 0) { alert('Nothing to save.'); return; }
+        lsSet(OPTIONS_KEY, options);
+        alert('List saved to your browser.');
+      });
+
+      $id('load-btn').addEventListener('click', () => {
+        const saved = lsGet(OPTIONS_KEY, []);
+        if (saved.length === 0) { alert('No saved list found.'); return; }
+        options = saved;
+        renderOptions();
+      });
+
+      $id('pick-btn').addEventListener('click', pick);
+
+      function pick() {
+        if (options.length < 2) return;
+        const chosen = options[Math.floor(Math.random() * options.length)];
+
+        const textEl = $id('choice-text');
+        const display = $id('result-display');
+        $id('result-placeholder').classList.add('hidden');
+        display.classList.remove('hidden');
+
+        textEl.className = 'choice-result-big';
+        void textEl.offsetWidth;
+        textEl.classList.add('spin-in');
+        textEl.textContent = chosen;
+
+        // Add to history
+        history.unshift(chosen);
+        if (history.length > 20) history.pop();
+        lsSet(HISTORY_KEY, history);
+        renderHistory();
+      }
+
+      function renderHistory() {
+        const section = $id('history-section');
+        const list = $id('history-list');
+        if (history.length === 0) { section.classList.add('hidden'); return; }
+        section.classList.remove('hidden');
+        list.innerHTML = '';
+        history.forEach((item, i) => {
+          const div = document.createElement('div');
+          div.className = 'history-item';
+          div.innerHTML = `<span class="history-num">${i + 1}</span><span>${esc(item)}</span>`;
+          list.appendChild(div);
+        });
+      }
+
+      $id('clear-history-btn').addEventListener('click', () => {
+        history = [];
+        lsSet(HISTORY_KEY, history);
+        renderHistory();
+      });
+
+      // Init
+      renderOptions();
+      renderHistory();
+    })();
+  </script>
+</body>
+</html>
