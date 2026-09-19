@@ -1,7 +1,7 @@
 /**
- * app.js — Home page logic.
- * Loads tools.json and categories.json, renders tool cards,
- * handles search and category filtering.
+ * app.js — Home page logic (POS UI Edition)
+ * Loads tools.json and categories.json, renders POS square tool cards,
+ * handles search and category filtering in Thai.
  */
 
 (function () {
@@ -42,8 +42,8 @@
     const container = $id('category-tabs');
     if (!container) return;
 
-    // "All" tab
-    const allTab = makeTab('all', 'All Tools');
+    // "All" tab in Thai
+    const allTab = makeTab('all', 'ทั้งหมด');
     container.appendChild(allTab);
 
     allCategories.forEach(cat => {
@@ -102,8 +102,10 @@
       grid.innerHTML = `
         <div class="empty-state" style="grid-column:1/-1">
           ${getIcon('search')}
-          <p>No tools found for "<strong>${escapeHtml(searchQuery || activeCategory)}</strong>".</p>
+          <p>ไม่พบเครื่องมือที่ตรงกับ "<strong>${escapeHtml(searchQuery || getCategoryLabel(activeCategory))}</strong>"</p>
         </div>`;
+      const countEl = $id('tools-count');
+      if (countEl) countEl.textContent = '0 รายการ';
       return;
     }
 
@@ -112,12 +114,12 @@
       grid.appendChild(card);
     });
 
-    // Update visible count
+    // Update visible count in Thai
     const countEl = $id('tools-count');
-    if (countEl) countEl.textContent = `${filtered.length} tool${filtered.length !== 1 ? 's' : ''}`;
+    if (countEl) countEl.textContent = `${filtered.length} รายการ`;
   }
 
-  // ---- Tool card builder ----
+  // ---- Tool card builder (Square POS Tile) ----
   const TOOL_ICONS = {
     'price-comparison': 'shopping-cart',
     'value-calculator': 'star',
@@ -136,15 +138,14 @@
     const card = document.createElement('a');
     card.className = 'tool-card';
     card.href = tool.path;
+    card.dataset.cat = tool.category;
     card.setAttribute('aria-label', `${tool.name} — ${tool.description}`);
     card.addEventListener('click', () => recordToolVisit(tool.id));
 
     card.innerHTML = `
       <div class="tool-card-icon" aria-hidden="true">${getIcon(iconName)}</div>
-      <div class="tool-card-category">${escapeHtml(getCategoryLabel(tool.category))}</div>
       <div class="tool-card-name">${escapeHtml(tool.name)}</div>
-      <div class="tool-card-desc">${escapeHtml(tool.description)}</div>
-      <div class="tool-card-cta">Open tool ${getIcon('arrow-right')}</div>
+      <div class="tool-card-category">${escapeHtml(getCategoryLabel(tool.category))}</div>
     `;
 
     return card;
@@ -205,6 +206,7 @@
 
   // ---- Helpers ----
   function getCategoryLabel(id) {
+    if (id === 'all') return 'ทั้งหมด';
     const cat = allCategories.find(c => c.id === id);
     return cat ? cat.label : id;
   }
@@ -221,7 +223,7 @@
     const grid = $id('tools-grid');
     if (grid) {
       grid.innerHTML = `<div class="alert alert-danger" style="grid-column:1/-1">
-        Failed to load tools. Please check your connection and reload.
+        ไม่สามารถโหลดรายการเครื่องมือได้ กรุณาลองใหม่อีกครั้ง
       </div>`;
     }
   }

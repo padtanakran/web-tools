@@ -1,163 +1,166 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Finance Calculator — Tools Hub</title>
-  <meta name="description" content="Calculate monthly loan payments, savings goals, compound interest, and ROI. Fully offline.">
-  <meta name="theme-color" content="#0d1017">
+  <title>ดอกเบี้ย/กู้ — Tools Hub</title>
+  <meta name="description" content="คำนวณค่างวดเงินกู้ ดอกเบี้ยทบต้น แผนการออมเงิน และผลตอบแทนการลงทุน ROI">
+  <meta name="theme-color" content="#f8fafc">
   <link rel="manifest" href="../manifest.json">
   <link rel="icon" type="image/jpeg" href="../assets/icons/icon-192.jpg">
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-  <a href="#main-content" class="skip-link">Skip to content</a>
+  <a href="#main-content" class="skip-link">ข้ามไปเนื้อหาหลัก</a>
 
   <header class="site-header" role="banner">
     <div class="container">
-      <a href="../index.html" class="header-back" aria-label="Back to Tools Hub">
+      <a href="../index.html" class="header-back" aria-label="กลับหน้าหลัก Tools Hub">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        Tools Hub
+        หน้าหลัก
       </a>
-      <a href="../index.html" class="site-logo" aria-label="Tools Hub home">
+      <a href="../index.html" class="site-logo" aria-label="หน้าหลัก Tools Hub">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         Tools <span>Hub</span>
       </a>
+      <div class="header-actions">
+        <button type="button" class="theme-toggle-btn" aria-label="สลับโหมดมืด" title="สลับโหมดมืด"></button>
+      </div>
     </div>
   </header>
 
   <main id="main-content" class="page-main">
     <div class="container" style="max-width:700px;">
       <div class="page-header">
-        <h1 class="page-title">Finance Calculator</h1>
-        <p class="page-description">Loan payments, compound interest, savings goals, and ROI. No data leaves your device.</p>
+        <h1 class="page-title">ดอกเบี้ย/กู้</h1>
+        <p class="page-description">คำนวณค่างวดเงินกู้ ดอกเบี้ยทบต้น แผนการออม และผลตอบแทน ROI</p>
       </div>
 
-      <nav class="tabs" aria-label="Finance calculator mode" role="tablist">
-        <button class="tab-btn active" data-mode="loan"     role="tab" aria-selected="true">Loan</button>
-        <button class="tab-btn"        data-mode="compound" role="tab" aria-selected="false">Compound Interest</button>
-        <button class="tab-btn"        data-mode="savings"  role="tab" aria-selected="false">Savings Goal</button>
-        <button class="tab-btn"        data-mode="roi"      role="tab" aria-selected="false">ROI</button>
+      <nav class="tabs" aria-label="โหมดการเงิน" role="tablist">
+        <button class="tab-btn active" data-mode="loan"     role="tab" aria-selected="true">ค่างวดเงินกู้</button>
+        <button class="tab-btn"        data-mode="compound" role="tab" aria-selected="false">ดอกเบี้ยทบต้น</button>
+        <button class="tab-btn"        data-mode="savings"  role="tab" aria-selected="false">แผนออมเงิน</button>
+        <button class="tab-btn"        data-mode="roi"      role="tab" aria-selected="false">ผลตอบแทน ROI</button>
       </nav>
 
       <!-- LOAN -->
       <div id="panel-loan" class="tab-panel active card">
-        <p class="text-muted text-sm mb-md">Calculate your monthly loan/mortgage payment.</p>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="loan-amount">Loan amount</label>
-            <input id="loan-amount" type="number" class="form-input" placeholder="10000" min="0">
+        <p class="text-muted text-sm mb-md">คำนวณยอดผ่อนชำระต่อเดือนและดอกเบี้ยรวม (บ้าน รถ สินเชื่อ)</p>
+        <div class="form-row" style="flex-wrap:wrap;">
+          <div class="form-group" style="flex:1;min-width:140px;">
+            <label class="form-label" for="loan-amount">ยอดเงินกู้ (฿)</label>
+            <input id="loan-amount" type="number" class="form-input" placeholder="เช่น 500000" min="0">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="loan-rate">Annual interest rate (%)</label>
-            <input id="loan-rate" type="number" class="form-input" placeholder="5" min="0" step="0.01">
+          <div class="form-group" style="flex:1;min-width:140px;">
+            <label class="form-label" for="loan-rate">ดอกเบี้ยต่อปี (%)</label>
+            <input id="loan-rate" type="number" class="form-input" placeholder="เช่น 5.5" min="0" step="0.01">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="loan-term">Loan term (years)</label>
-            <input id="loan-term" type="number" class="form-input" placeholder="5" min="0.1" step="0.5">
+          <div class="form-group" style="flex:1;min-width:140px;">
+            <label class="form-label" for="loan-term">ระยะเวลาผ่อน (ปี)</label>
+            <input id="loan-term" type="number" class="form-input" placeholder="เช่น 5" min="0.1" step="0.5">
           </div>
         </div>
-        <button class="btn btn-primary mt-md btn-block fin-calc-btn" data-mode="loan">Calculate</button>
+        <button class="btn btn-primary mt-md btn-block fin-calc-btn" data-mode="loan">คำนวณค่างวด</button>
         <div id="res-loan" class="hidden mt-md">
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--space-sm);">
-            <div class="result-box"><div class="result-label">Monthly payment</div><div class="result-value" id="loan-monthly"></div></div>
-            <div class="result-box"><div class="result-label">Total paid</div><div class="result-value" id="loan-total"></div></div>
-            <div class="result-box"><div class="result-label">Total interest</div><div class="result-value" style="color:var(--warning)" id="loan-interest"></div></div>
+            <div class="result-box"><div class="result-label">ผ่อนเดือนละ</div><div class="result-value" id="loan-monthly"></div></div>
+            <div class="result-box"><div class="result-label">ยอดจ่ายรวมทั้งหมด</div><div class="result-value" id="loan-total"></div></div>
+            <div class="result-box"><div class="result-label">ดอกเบี้ยรวม</div><div class="result-value" style="color:var(--warning)" id="loan-interest"></div></div>
           </div>
         </div>
       </div>
 
       <!-- COMPOUND INTEREST -->
       <div id="panel-compound" class="tab-panel card">
-        <p class="text-muted text-sm mb-md">How much will your investment grow over time?</p>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="ci-principal">Principal</label>
-            <input id="ci-principal" type="number" class="form-input" placeholder="1000" min="0">
+        <p class="text-muted text-sm mb-md">เงินลงทุนจะเติบโตเท่าไรตามระยะเวลาและอัตราทบต้น</p>
+        <div class="form-row" style="flex-wrap:wrap;">
+          <div class="form-group" style="flex:1;min-width:130px;">
+            <label class="form-label" for="ci-principal">เงินต้น (฿)</label>
+            <input id="ci-principal" type="number" class="form-input" placeholder="เช่น 100000" min="0">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="ci-rate">Annual rate (%)</label>
-            <input id="ci-rate" type="number" class="form-input" placeholder="7" step="0.01">
+          <div class="form-group" style="flex:1;min-width:110px;">
+            <label class="form-label" for="ci-rate">ผลตอบแทนต่อปี (%)</label>
+            <input id="ci-rate" type="number" class="form-input" placeholder="เช่น 7" step="0.01">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="ci-years">Years</label>
-            <input id="ci-years" type="number" class="form-input" placeholder="10" min="1">
+          <div class="form-group" style="flex:1;min-width:100px;">
+            <label class="form-label" for="ci-years">จำนวนปี</label>
+            <input id="ci-years" type="number" class="form-input" placeholder="เช่น 10" min="1">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="ci-freq">Compounding</label>
+          <div class="form-group" style="flex:1;min-width:130px;">
+            <label class="form-label" for="ci-freq">รอบการทบต้น</label>
             <select id="ci-freq" class="form-select">
-              <option value="1">Annually</option>
-              <option value="2">Semi-annually</option>
-              <option value="4">Quarterly</option>
-              <option value="12" selected>Monthly</option>
-              <option value="365">Daily</option>
+              <option value="1">ปีละครั้ง</option>
+              <option value="2">ทุก 6 เดือน</option>
+              <option value="4">ทุกไตรมาส</option>
+              <option value="12" selected>ทุกเดือน</option>
+              <option value="365">ทุกวัน</option>
             </select>
           </div>
         </div>
-        <button class="btn btn-primary mt-md btn-block fin-calc-btn" data-mode="compound">Calculate</button>
+        <button class="btn btn-primary mt-md btn-block fin-calc-btn" data-mode="compound">คำนวณดอกเบี้ยทบต้น</button>
         <div id="res-compound" class="hidden mt-md">
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--space-sm);">
-            <div class="result-box"><div class="result-label">Final amount</div><div class="result-value" id="ci-final"></div></div>
-            <div class="result-box"><div class="result-label">Interest earned</div><div class="result-value" style="color:var(--success)" id="ci-earned"></div></div>
-            <div class="result-box"><div class="result-label">Growth</div><div class="result-value" id="ci-growth"></div></div>
+            <div class="result-box"><div class="result-label">ยอดเงินรวมสุทธิ</div><div class="result-value" id="ci-final"></div></div>
+            <div class="result-box"><div class="result-label">ผลตอบแทนที่ได้</div><div class="result-value" style="color:var(--success)" id="ci-earned"></div></div>
+            <div class="result-box"><div class="result-label">อัตราเติบโตรวม</div><div class="result-value" id="ci-growth"></div></div>
           </div>
         </div>
       </div>
 
       <!-- SAVINGS GOAL -->
       <div id="panel-savings" class="tab-panel card">
-        <p class="text-muted text-sm mb-md">How much do you need to save per month to reach your goal?</p>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="sg-goal">Savings goal</label>
-            <input id="sg-goal" type="number" class="form-input" placeholder="50000" min="0">
+        <p class="text-muted text-sm mb-md">ต้องเก็บเงินเดือนละเท่าไรเพื่อให้ถึงเป้าหมายที่ตั้งไว้</p>
+        <div class="form-row" style="flex-wrap:wrap;">
+          <div class="form-group" style="flex:1;min-width:130px;">
+            <label class="form-label" for="sg-goal">เป้าหมายเงินออม (฿)</label>
+            <input id="sg-goal" type="number" class="form-input" placeholder="เช่น 1000000" min="0">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="sg-current">Current savings</label>
-            <input id="sg-current" type="number" class="form-input" placeholder="0" min="0">
+          <div class="form-group" style="flex:1;min-width:130px;">
+            <label class="form-label" for="sg-current">มีเงินออมอยู่แล้ว (฿)</label>
+            <input id="sg-current" type="number" class="form-input" placeholder="เช่น 50000" min="0">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="sg-years">Years to reach goal</label>
-            <input id="sg-years" type="number" class="form-input" placeholder="5" min="0.1" step="0.5">
+          <div class="form-group" style="flex:1;min-width:100px;">
+            <label class="form-label" for="sg-years">ระยะเวลา (ปี)</label>
+            <input id="sg-years" type="number" class="form-input" placeholder="เช่น 5" min="0.1" step="0.5">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="sg-rate">Annual interest (%)</label>
-            <input id="sg-rate" type="number" class="form-input" placeholder="4" step="0.01">
+          <div class="form-group" style="flex:1;min-width:110px;">
+            <label class="form-label" for="sg-rate">ผลตอบแทนต่อปี (%)</label>
+            <input id="sg-rate" type="number" class="form-input" placeholder="เช่น 4" step="0.01">
           </div>
         </div>
-        <button class="btn btn-primary mt-md btn-block fin-calc-btn" data-mode="savings">Calculate</button>
+        <button class="btn btn-primary mt-md btn-block fin-calc-btn" data-mode="savings">คำนวณแผนการออม</button>
         <div id="res-savings" class="hidden mt-md">
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--space-sm);">
-            <div class="result-box"><div class="result-label">Monthly savings needed</div><div class="result-value" id="sg-monthly"></div></div>
-            <div class="result-box"><div class="result-label">Total contributions</div><div class="result-value" id="sg-contrib"></div></div>
-            <div class="result-box"><div class="result-label">Interest earned</div><div class="result-value" style="color:var(--success)" id="sg-interest"></div></div>
+            <div class="result-box"><div class="result-label">ต้องออมเดือนละ</div><div class="result-value" id="sg-monthly"></div></div>
+            <div class="result-box"><div class="result-label">เงินต้นที่ออมรวม</div><div class="result-value" id="sg-contrib"></div></div>
+            <div class="result-box"><div class="result-label">ดอกเบี้ยช่วยสร้าง</div><div class="result-value" style="color:var(--success)" id="sg-interest"></div></div>
           </div>
         </div>
       </div>
 
       <!-- ROI -->
       <div id="panel-roi" class="tab-panel card">
-        <p class="text-muted text-sm mb-md">Calculate Return on Investment.</p>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="roi-cost">Initial investment</label>
-            <input id="roi-cost" type="number" class="form-input" placeholder="1000" min="0">
+        <p class="text-muted text-sm mb-md">คำนวณอัตราผลตอบแทนจากการลงทุน (ROI)</p>
+        <div class="form-row" style="flex-wrap:wrap;">
+          <div class="form-group" style="flex:1;min-width:140px;">
+            <label class="form-label" for="roi-cost">เงินลงทุนเริ่มต้น (฿)</label>
+            <input id="roi-cost" type="number" class="form-input" placeholder="เช่น 100000" min="0">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="roi-return">Final value / return</label>
-            <input id="roi-return" type="number" class="form-input" placeholder="1500" min="0">
+          <div class="form-group" style="flex:1;min-width:140px;">
+            <label class="form-label" for="roi-return">มูลค่าที่ได้คืน (฿)</label>
+            <input id="roi-return" type="number" class="form-input" placeholder="เช่น 150000" min="0">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="roi-years">Years held (optional)</label>
-            <input id="roi-years" type="number" class="form-input" placeholder="3" min="0.1" step="0.5">
+          <div class="form-group" style="flex:1;min-width:120px;">
+            <label class="form-label" for="roi-years">ระยะเวลาถือครอง (ปี)</label>
+            <input id="roi-years" type="number" class="form-input" placeholder="เช่น 3" min="0.1" step="0.5">
           </div>
         </div>
-        <button class="btn btn-primary mt-md btn-block fin-calc-btn" data-mode="roi">Calculate</button>
+        <button class="btn btn-primary mt-md btn-block fin-calc-btn" data-mode="roi">คำนวณ ROI</button>
         <div id="res-roi" class="hidden mt-md">
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--space-sm);">
-            <div class="result-box"><div class="result-label">Net profit</div><div class="result-value" id="roi-profit"></div></div>
-            <div class="result-box"><div class="result-label">ROI</div><div class="result-value" style="color:var(--success)" id="roi-pct"></div></div>
-            <div class="result-box"><div class="result-label">Annual ROI</div><div class="result-value" id="roi-annual"></div></div>
+            <div class="result-box"><div class="result-label">กำไรสุทธิ</div><div class="result-value" id="roi-profit"></div></div>
+            <div class="result-box"><div class="result-label">อัตราผลตอบแทน (ROI)</div><div class="result-value" style="color:var(--success)" id="roi-pct"></div></div>
+            <div class="result-box"><div class="result-label">เฉลี่ยต่อปี (CAGR)</div><div class="result-value" id="roi-annual"></div></div>
           </div>
         </div>
       </div>
@@ -165,7 +168,7 @@
   </main>
 
   <footer class="site-footer" role="contentinfo">
-    <div class="container"><p>Tools Hub &mdash; offline-first, no tracking, no sign-in.</p></div>
+    <div class="container"><p>Tools Hub &mdash; ทำงานออฟไลน์ได้ รวดเร็ว ปลอดภัย</p></div>
   </footer>
 
   <script src="../assets/js/common.js"></script>
@@ -175,7 +178,6 @@
       registerServiceWorker('../sw.js');
       recordToolVisit('finance-calc');
 
-      // Tabs
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const mode = btn.dataset.mode;
@@ -187,7 +189,6 @@
         });
       });
 
-      // Calculate buttons
       document.querySelectorAll('.fin-calc-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           switch (btn.dataset.mode) {
@@ -199,13 +200,13 @@
         });
       });
 
-      function fmt(n) { return formatNumber(n, 2); }
+      function fmt(n) { return '฿' + formatNumber(n, 2); }
 
       function calcLoan() {
         const P = safeFloat($id('loan-amount').value);
         const annualRate = safeFloat($id('loan-rate').value) / 100;
         const years = safeFloat($id('loan-term').value);
-        if (P <= 0 || years <= 0) { alert('Enter a valid loan amount and term.'); return; }
+        if (P <= 0 || years <= 0) { alert('กรุณากรอกยอดเงินกู้และระยะเวลาให้ถูกต้อง'); return; }
         const n = years * 12;
         const r = annualRate / 12;
         let monthly;
@@ -224,13 +225,13 @@
         const r = safeFloat($id('ci-rate').value) / 100;
         const t = safeFloat($id('ci-years').value);
         const n = safeFloat($id('ci-freq').value);
-        if (P <= 0 || t <= 0) { alert('Enter valid values.'); return; }
+        if (P <= 0 || t <= 0) { alert('กรุณากรอกตัวเลขให้ครบถ้วน'); return; }
         const A = P * Math.pow(1 + r/n, n*t);
         const earned = A - P;
         const growth = (earned / P) * 100;
         $id('ci-final').textContent  = fmt(A);
         $id('ci-earned').textContent = fmt(earned);
-        $id('ci-growth').textContent = fmt(growth) + '%';
+        $id('ci-growth').textContent = formatNumber(growth, 2) + '%';
         $id('res-compound').classList.remove('hidden');
       }
 
@@ -239,7 +240,7 @@
         const current = safeFloat($id('sg-current').value);
         const years = safeFloat($id('sg-years').value);
         const r = safeFloat($id('sg-rate').value) / 100;
-        if (goal <= 0 || years <= 0) { alert('Enter a valid goal and timeframe.'); return; }
+        if (goal <= 0 || years <= 0) { alert('กรุณากรอกเป้าหมายและระยะเวลาให้ถูกต้อง'); return; }
         const need = goal - current;
         const n = years * 12;
         const rm = r / 12;
@@ -258,13 +259,13 @@
         const cost = safeFloat($id('roi-cost').value);
         const ret = safeFloat($id('roi-return').value);
         const years = safeFloat($id('roi-years').value);
-        if (cost <= 0) { alert('Enter a valid investment amount.'); return; }
+        if (cost <= 0) { alert('กรุณากรอกเงินลงทุนเริ่มต้น'); return; }
         const profit = ret - cost;
         const roi = (profit / cost) * 100;
         let annual = '--';
-        if (years > 0) annual = fmt((Math.pow(ret/cost, 1/years) - 1) * 100) + '%';
+        if (years > 0 && ret > 0) annual = formatNumber((Math.pow(ret/cost, 1/years) - 1) * 100, 2) + '%';
         $id('roi-profit').textContent = fmt(profit);
-        $id('roi-pct').textContent    = fmt(roi) + '%';
+        $id('roi-pct').textContent    = formatNumber(roi, 2) + '%';
         $id('roi-annual').textContent = annual;
         $id('res-roi').classList.remove('hidden');
       }

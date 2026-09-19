@@ -1,60 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit Converter — Tools Hub</title>
-  <meta name="description" content="Convert between length, weight, temperature, volume, area, and speed units. Offline-ready.">
-  <meta name="theme-color" content="#0d1017">
+  <title>แปลงหน่วย — Tools Hub</title>
+  <meta name="description" content="แปลงหน่วยวัดทุกชนิด ความยาว น้ำหนัก อุณหภูมิ ปริมาตร พื้นที่ และความเร็ว">
+  <meta name="theme-color" content="#f8fafc">
   <link rel="manifest" href="../manifest.json">
   <link rel="icon" type="image/jpeg" href="../assets/icons/icon-192.jpg">
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-  <a href="#main-content" class="skip-link">Skip to content</a>
+  <a href="#main-content" class="skip-link">ข้ามไปเนื้อหาหลัก</a>
 
   <header class="site-header" role="banner">
     <div class="container">
-      <a href="../index.html" class="header-back" aria-label="Back to Tools Hub">
+      <a href="../index.html" class="header-back" aria-label="กลับหน้าหลัก Tools Hub">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        Tools Hub
+        หน้าหลัก
       </a>
-      <a href="../index.html" class="site-logo" aria-label="Tools Hub home">
+      <a href="../index.html" class="site-logo" aria-label="หน้าหลัก Tools Hub">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         Tools <span>Hub</span>
       </a>
+      <div class="header-actions">
+        <button type="button" class="theme-toggle-btn" aria-label="สลับโหมดมืด" title="สลับโหมดมืด"></button>
+      </div>
     </div>
   </header>
 
   <main id="main-content" class="page-main">
     <div class="container" style="max-width:640px;">
       <div class="page-header">
-        <h1 class="page-title">Unit Converter</h1>
-        <p class="page-description">Convert between common units of length, weight, temperature, volume, area, and speed.</p>
+        <h1 class="page-title">แปลงหน่วย</h1>
+        <p class="page-description">แปลงหน่วยวัดความยาว น้ำหนัก อุณหภูมิ ปริมาตร พื้นที่ และความเร็ว</p>
       </div>
 
       <!-- Category tabs -->
-      <nav class="tabs" aria-label="Unit category" role="tablist">
-        <button class="tab-btn active" data-cat="length" role="tab" aria-selected="true">Length</button>
-        <button class="tab-btn"        data-cat="weight" role="tab" aria-selected="false">Weight</button>
-        <button class="tab-btn"        data-cat="temperature" role="tab" aria-selected="false">Temperature</button>
-        <button class="tab-btn"        data-cat="volume" role="tab" aria-selected="false">Volume</button>
-        <button class="tab-btn"        data-cat="area" role="tab" aria-selected="false">Area</button>
-        <button class="tab-btn"        data-cat="speed" role="tab" aria-selected="false">Speed</button>
+      <nav class="tabs" aria-label="หมวดหมู่หน่วย" role="tablist">
+        <button class="tab-btn active" data-cat="length" role="tab" aria-selected="true">ความยาว</button>
+        <button class="tab-btn"        data-cat="weight" role="tab" aria-selected="false">น้ำหนัก</button>
+        <button class="tab-btn"        data-cat="temperature" role="tab" aria-selected="false">อุณหภูมิ</button>
+        <button class="tab-btn"        data-cat="volume" role="tab" aria-selected="false">ปริมาตร</button>
+        <button class="tab-btn"        data-cat="area" role="tab" aria-selected="false">พื้นที่</button>
+        <button class="tab-btn"        data-cat="speed" role="tab" aria-selected="false">ความเร็ว</button>
       </nav>
 
       <div class="card">
-        <div class="form-row" style="align-items:flex-end;">
-          <div class="form-group" style="flex:2;">
-            <label class="form-label" for="input-value">Value</label>
-            <input id="input-value" type="number" class="form-input" placeholder="Enter value" step="any">
+        <div class="form-row" style="align-items:flex-end;flex-wrap:wrap;">
+          <div class="form-group" style="flex:2;min-width:140px;">
+            <label class="form-label" for="input-value">ค่าตัวเลข</label>
+            <input id="input-value" type="number" class="form-input" placeholder="ใส่ตัวเลข" step="any">
           </div>
-          <div class="form-group" style="flex:1.5;">
-            <label class="form-label" for="from-unit">From</label>
+          <div class="form-group" style="flex:1.5;min-width:130px;">
+            <label class="form-label" for="from-unit">จากหน่วย</label>
             <select id="from-unit" class="form-select"></select>
           </div>
-          <div class="form-group" style="flex:1.5;">
-            <label class="form-label" for="to-unit">To</label>
+          <div class="form-group" style="flex:1.5;min-width:130px;">
+            <label class="form-label" for="to-unit">เป็นหน่วย</label>
             <select id="to-unit" class="form-select"></select>
           </div>
         </div>
@@ -62,20 +65,20 @@
         <div id="conv-result" class="result-box mt-md hidden"></div>
 
         <div class="flex gap-sm mt-md flex-wrap">
-          <button id="convert-btn" class="btn btn-primary" style="flex:1;">Convert</button>
-          <button id="swap-btn" class="btn btn-secondary" aria-label="Swap units">
+          <button id="convert-btn" class="btn btn-primary" style="flex:1;">แปลงค่า</button>
+          <button id="swap-btn" class="btn btn-secondary" aria-label="สลับหน่วย">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-            Swap
+            สลับหน่วย
           </button>
         </div>
       </div>
 
       <!-- Quick reference table -->
       <div class="card mt-md">
-        <h2 class="section-title">All conversions from <span id="ref-from-label"></span></h2>
+        <h2 class="section-title">ตารางเทียบหน่วยทั้งหมด (<span id="ref-from-label"></span>)</h2>
         <div class="table-wrap">
           <table class="data-table" id="ref-table">
-            <thead><tr><th>Unit</th><th>Result</th></tr></thead>
+            <thead><tr><th>หน่วย</th><th>ผลลัพธ์</th></tr></thead>
             <tbody id="ref-body"></tbody>
           </table>
         </div>
@@ -84,7 +87,7 @@
   </main>
 
   <footer class="site-footer" role="contentinfo">
-    <div class="container"><p>Tools Hub &mdash; offline-first, no tracking, no sign-in.</p></div>
+    <div class="container"><p>Tools Hub &mdash; ทำงานออฟไลน์ได้ รวดเร็ว ปลอดภัย</p></div>
   </footer>
 
   <script src="../assets/js/common.js"></script>
@@ -94,92 +97,76 @@
       registerServiceWorker('../sw.js');
       recordToolVisit('unit-converter');
 
-      // ---- Unit definitions ----
-      // Each category has units with a "factor" to a base unit.
-      // Temperature is special — handled with functions.
-
       const CATEGORIES = {
         length: {
           base: 'm',
           units: [
-            { id: 'mm',   label: 'Millimeter (mm)',   factor: 0.001 },
-            { id: 'cm',   label: 'Centimeter (cm)',   factor: 0.01 },
-            { id: 'm',    label: 'Meter (m)',          factor: 1 },
-            { id: 'km',   label: 'Kilometer (km)',     factor: 1000 },
-            { id: 'in',   label: 'Inch (in)',          factor: 0.0254 },
-            { id: 'ft',   label: 'Foot (ft)',          factor: 0.3048 },
-            { id: 'yd',   label: 'Yard (yd)',          factor: 0.9144 },
-            { id: 'mi',   label: 'Mile (mi)',          factor: 1609.344 },
-            { id: 'nmi',  label: 'Nautical mile',      factor: 1852 },
+            { id: 'mm',   label: 'มิลลิเมตร (mm)',  factor: 0.001 },
+            { id: 'cm',   label: 'เซนติเมตร (cm)',  factor: 0.01 },
+            { id: 'm',    label: 'เมตร (m)',        factor: 1 },
+            { id: 'km',   label: 'กิโลเมตร (km)',   factor: 1000 },
+            { id: 'in',   label: 'นิ้ว (in)',        factor: 0.0254 },
+            { id: 'ft',   label: 'ฟุต (ft)',        factor: 0.3048 },
+            { id: 'yd',   label: 'หลา (yd)',        factor: 0.9144 },
+            { id: 'mi',   label: 'ไมล์ (mi)',       factor: 1609.344 },
           ]
         },
         weight: {
           base: 'kg',
           units: [
-            { id: 'mg',  label: 'Milligram (mg)',  factor: 0.000001 },
-            { id: 'g',   label: 'Gram (g)',        factor: 0.001 },
-            { id: 'kg',  label: 'Kilogram (kg)',   factor: 1 },
-            { id: 't',   label: 'Tonne (t)',       factor: 1000 },
-            { id: 'oz',  label: 'Ounce (oz)',      factor: 0.028349523 },
-            { id: 'lb',  label: 'Pound (lb)',      factor: 0.45359237 },
-            { id: 'st',  label: 'Stone (st)',      factor: 6.35029318 },
+            { id: 'mg',  label: 'มิลลิกรัม (mg)', factor: 0.000001 },
+            { id: 'g',   label: 'กรัม (g)',       factor: 0.001 },
+            { id: 'kg',  label: 'กิโลกรัม (kg)',  factor: 1 },
+            { id: 't',   label: 'ตัน (t)',        factor: 1000 },
+            { id: 'oz',  label: 'ออนซ์ (oz)',     factor: 0.028349523 },
+            { id: 'lb',  label: 'ปอนด์ (lb)',     factor: 0.45359237 },
           ]
         },
         temperature: {
           special: true,
           units: [
-            { id: 'C', label: 'Celsius (°C)' },
-            { id: 'F', label: 'Fahrenheit (°F)' },
-            { id: 'K', label: 'Kelvin (K)' },
+            { id: 'C', label: 'เซลเซียส (°C)' },
+            { id: 'F', label: 'ฟาเรนไฮต์ (°F)' },
+            { id: 'K', label: 'เคลวิน (K)' },
           ]
         },
         volume: {
           base: 'l',
           units: [
-            { id: 'ml',    label: 'Milliliter (ml)',  factor: 0.001 },
-            { id: 'cl',    label: 'Centiliter (cl)',  factor: 0.01 },
-            { id: 'dl',    label: 'Deciliter (dl)',   factor: 0.1 },
-            { id: 'l',     label: 'Liter (L)',        factor: 1 },
-            { id: 'm3',    label: 'Cubic meter (m³)', factor: 1000 },
-            { id: 'tsp',   label: 'Teaspoon (tsp)',   factor: 0.00492892 },
-            { id: 'tbsp',  label: 'Tablespoon (tbsp)',factor: 0.01478676 },
-            { id: 'floz',  label: 'Fl. Oz (US)',      factor: 0.02957353 },
-            { id: 'cup',   label: 'Cup (US)',         factor: 0.23658824 },
-            { id: 'pt',    label: 'Pint (US)',        factor: 0.47317647 },
-            { id: 'qt',    label: 'Quart (US)',       factor: 0.94635295 },
-            { id: 'gal',   label: 'Gallon (US)',      factor: 3.7854118 },
+            { id: 'ml',    label: 'มิลลิลิตร (ml)', factor: 0.001 },
+            { id: 'l',     label: 'ลิตร (L)',       factor: 1 },
+            { id: 'm3',    label: 'ลูกบาศก์เมตร (m³)', factor: 1000 },
+            { id: 'tsp',   label: 'ช้อนชา (tsp)',   factor: 0.00492892 },
+            { id: 'tbsp',  label: 'ช้อนโต๊ะ (tbsp)', factor: 0.01478676 },
+            { id: 'cup',   label: 'ถ้วยตวง (cup)',   factor: 0.23658824 },
+            { id: 'gal',   label: 'แกลลอน (gal US)', factor: 3.7854118 },
           ]
         },
         area: {
           base: 'm2',
           units: [
-            { id: 'mm2', label: 'sq. Millimeter',   factor: 0.000001 },
-            { id: 'cm2', label: 'sq. Centimeter',   factor: 0.0001 },
-            { id: 'm2',  label: 'sq. Meter (m²)',   factor: 1 },
-            { id: 'km2', label: 'sq. Kilometer',    factor: 1000000 },
-            { id: 'ha',  label: 'Hectare (ha)',      factor: 10000 },
-            { id: 'in2', label: 'sq. Inch',         factor: 0.00064516 },
-            { id: 'ft2', label: 'sq. Foot',         factor: 0.09290304 },
-            { id: 'yd2', label: 'sq. Yard',         factor: 0.83612736 },
-            { id: 'ac',  label: 'Acre',             factor: 4046.8564 },
-            { id: 'mi2', label: 'sq. Mile',         factor: 2589988.1 },
+            { id: 'sq_m',  label: 'ตารางเมตร (ตร.ม.)', factor: 1 },
+            { id: 'sq_km', label: 'ตารางกิโลเมตร (ตร.กม.)', factor: 1000000 },
+            { id: 'rai',   label: 'ไร่ (1,600 ตร.ม.)', factor: 1600 },
+            { id: 'ngan',  label: 'งาน (400 ตร.ม.)', factor: 400 },
+            { id: 'sq_wa', label: 'ตารางวา (4 ตร.ม.)', factor: 4 },
+            { id: 'sq_ft', label: 'ตารางฟุต (sq ft)', factor: 0.09290304 },
+            { id: 'acre',  label: 'เอเคอร์ (Acre)', factor: 4046.8564 },
           ]
         },
         speed: {
           base: 'ms',
           units: [
-            { id: 'ms',   label: 'm/s',                 factor: 1 },
-            { id: 'kmh',  label: 'km/h',                factor: 0.27777778 },
-            { id: 'mph',  label: 'mph',                  factor: 0.44704 },
-            { id: 'kt',   label: 'Knot (kt)',            factor: 0.51444444 },
-            { id: 'fts',  label: 'ft/s',                 factor: 0.3048 },
+            { id: 'kmh',  label: 'กิโลเมตร/ชั่วโมง (km/h)', factor: 0.27777778 },
+            { id: 'ms',   label: 'เมตร/วินาที (m/s)',     factor: 1 },
+            { id: 'mph',  label: 'ไมล์/ชั่วโมง (mph)',     factor: 0.44704 },
+            { id: 'kt',   label: 'น็อต (Knot)',            factor: 0.51444444 },
           ]
         },
       };
 
       let activeCat = 'length';
 
-      // Tab switching
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           activeCat = btn.dataset.cat;
@@ -197,11 +184,10 @@
         const toSel = $id('to-unit');
         fromSel.innerHTML = '';
         toSel.innerHTML = '';
-        cat.units.forEach((u, i) => {
+        cat.units.forEach(u => {
           fromSel.appendChild(new Option(u.label, u.id));
           toSel.appendChild(new Option(u.label, u.id));
         });
-        // Default: second unit for "to"
         toSel.selectedIndex = Math.min(1, cat.units.length - 1);
         updateRefTable();
       }
@@ -211,12 +197,11 @@
       }
 
       function convertTemp(val, from, to) {
-        // To Celsius first
         let celsius;
         if (from === 'C') celsius = val;
         else if (from === 'F') celsius = (val - 32) * 5/9;
         else if (from === 'K') celsius = val - 273.15;
-        // From Celsius to target
+
         if (to === 'C') return celsius;
         if (to === 'F') return celsius * 9/5 + 32;
         if (to === 'K') return celsius + 273.15;
@@ -241,8 +226,8 @@
         const result = doConvert(val, fromId, toId);
         const el = $id('conv-result');
         el.innerHTML = `
-          <div class="result-label">${formatNumber(val, 6)} ${fromLabel}</div>
-          <div class="result-value">${formatNumber(result, 6)}</div>
+          <div class="result-label">${formatNumber(val, 4)} ${fromLabel} =</div>
+          <div class="result-value">${formatNumber(result, 4)}</div>
           <div class="result-sub">${toLabel}</div>
         `;
         el.classList.remove('hidden');
@@ -262,7 +247,7 @@
           if (u.id === fromId) return;
           const res = doConvert(val, fromId, u.id);
           const tr = document.createElement('tr');
-          tr.innerHTML = `<td>${u.label}</td><td class="font-mono">${formatNumber(res, 6)}</td>`;
+          tr.innerHTML = `<td>${u.label}</td><td class="font-mono"><strong>${formatNumber(res, 4)}</strong></td>`;
           tbody.appendChild(tr);
         });
       }

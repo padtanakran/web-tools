@@ -1,62 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Price Comparison — Tools Hub</title>
-  <meta name="description" content="Compare product prices per unit to instantly find the best deal. Add multiple items, enter price and quantity, and see which is cheapest per unit.">
-  <meta name="theme-color" content="#0d1017">
+  <title>เทียบราคา — Tools Hub</title>
+  <meta name="description" content="เปรียบเทียบราคาสินค้าต่อหน่วย หาตัวเลือกที่คุ้มและประหยัดที่สุด">
+  <meta name="theme-color" content="#f8fafc">
   <link rel="manifest" href="../manifest.json">
   <link rel="icon" type="image/jpeg" href="../assets/icons/icon-192.jpg">
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-  <a href="#main-content" class="skip-link">Skip to content</a>
+  <a href="#main-content" class="skip-link">ข้ามไปเนื้อหาหลัก</a>
 
   <header class="site-header" role="banner">
     <div class="container">
-      <a href="../index.html" class="header-back" aria-label="Back to Tools Hub">
+      <a href="../index.html" class="header-back" aria-label="กลับหน้าหลัก Tools Hub">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        Tools Hub
+        หน้าหลัก
       </a>
-      <a href="../index.html" class="site-logo" aria-label="Tools Hub home">
+      <a href="../index.html" class="site-logo" aria-label="หน้าหลัก Tools Hub">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         Tools <span>Hub</span>
       </a>
+      <div class="header-actions">
+        <button type="button" class="theme-toggle-btn" aria-label="สลับโหมดมืด" title="สลับโหมดมืด"></button>
+      </div>
     </div>
   </header>
 
   <main id="main-content" class="page-main">
     <div class="container">
       <div class="page-header">
-        <h1 class="page-title">Price Comparison</h1>
-        <p class="page-description">Compare products by price per unit to find the best deal instantly.</p>
+        <h1 class="page-title">เทียบราคา</h1>
+        <p class="page-description">คำนวณราคาต่อหน่วย หาว่าชิ้นไหนคุ้มและประหยัดที่สุด</p>
       </div>
 
       <!-- Unit selector -->
       <div class="card mb-md">
-        <div class="form-row" style="align-items:center;">
-          <div class="form-group" style="flex:0 0 auto;">
-            <label class="form-label" for="unit-type">Comparing by</label>
-            <select id="unit-type" class="form-select" style="min-width:160px;">
-              <option value="unit">Unit / piece</option>
-              <option value="g">Weight (g)</option>
-              <option value="kg">Weight (kg)</option>
-              <option value="ml">Volume (ml)</option>
-              <option value="l">Volume (L)</option>
-              <option value="oz">Weight (oz)</option>
-              <option value="lb">Weight (lb)</option>
+        <div class="form-row" style="align-items:center;flex-wrap:wrap;">
+          <div class="form-group" style="flex:1;min-width:140px;">
+            <label class="form-label" for="unit-type">หน่วยเปรียบเทียบ</label>
+            <select id="unit-type" class="form-select">
+              <option value="ชิ้น">ชิ้น / อัน</option>
+              <option value="กรัม (g)">กรัม (g)</option>
+              <option value="กก. (kg)">กิโลกรัม (kg)</option>
+              <option value="มล. (ml)">มิลลิลิตร (ml)</option>
+              <option value="ลิตร (L)">ลิตร (L)</option>
+              <option value="แพ็ค">แพ็ค</option>
             </select>
           </div>
-          <div class="form-group" style="flex:0 0 auto;">
-            <label class="form-label" for="currency-symbol">Currency symbol</label>
-            <input id="currency-symbol" type="text" class="form-input" value="$" maxlength="4" style="width:80px;">
+          <div class="form-group" style="flex:0 0 auto;width:90px;">
+            <label class="form-label" for="currency-symbol">สกุลเงิน</label>
+            <input id="currency-symbol" type="text" class="form-input" value="฿" maxlength="4">
           </div>
           <div style="flex:1;"></div>
           <div style="align-self:flex-end;">
             <button id="add-item-btn" class="btn btn-secondary">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              Add Item
+              เพิ่มสินค้า
             </button>
           </div>
         </div>
@@ -66,20 +68,20 @@
       <div id="items-container" class="tool-section mb-lg"></div>
 
       <!-- Compare button -->
-      <button id="compare-btn" class="btn btn-primary btn-lg btn-block mb-lg">Compare Prices</button>
+      <button id="compare-btn" class="btn btn-primary btn-lg btn-block mb-lg">เปรียบเทียบราคา</button>
 
       <!-- Results -->
       <div id="results-section" class="hidden">
-        <h2 class="section-title">Results</h2>
+        <h2 class="section-title">ผลการเปรียบเทียบ</h2>
         <div id="results-table-wrap" class="card card-sm table-wrap">
           <table class="data-table" id="results-table">
             <thead>
               <tr>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Price per unit</th>
-                <th>Verdict</th>
+                <th>สินค้า</th>
+                <th>ราคา</th>
+                <th>ปริมาณ</th>
+                <th>ราคาต่อหน่วย</th>
+                <th>ผลลัพธ์</th>
               </tr>
             </thead>
             <tbody id="results-body"></tbody>
@@ -92,7 +94,7 @@
 
   <footer class="site-footer" role="contentinfo">
     <div class="container">
-      <p>Tools Hub &mdash; offline-first, no tracking, no sign-in.</p>
+      <p>Tools Hub &mdash; ทำงานออฟไลน์ได้ รวดเร็ว ปลอดภัย</p>
     </div>
   </footer>
 
@@ -105,7 +107,7 @@
 
       let itemCount = 0;
 
-      function getCurrency() { return $id('currency-symbol').value || '$'; }
+      function getCurrency() { return $id('currency-symbol').value || '฿'; }
       function getUnitLabel() { return $id('unit-type').value; }
 
       function addItem(name = '', price = '', qty = '') {
@@ -117,20 +119,20 @@
         row.id = `item-row-${id}`;
         row.innerHTML = `
           <div class="flex-between mb-sm">
-            <span class="text-sm font-bold" style="color:var(--text-muted);">Item ${id}</span>
-            ${id > 2 ? `<button class="btn btn-danger btn-sm" onclick="removeItem(${id})" aria-label="Remove item ${id}">Remove</button>` : ''}
+            <span class="text-sm font-bold" style="color:var(--text-muted);">รายการที่ ${id}</span>
+            ${id > 2 ? `<button class="btn btn-danger btn-sm" onclick="removeItem(${id})" aria-label="ลบรายการ ${id}">ลบออก</button>` : ''}
           </div>
           <div class="form-row">
             <div class="form-group" style="flex:2;min-width:120px;">
-              <label class="form-label" for="item-name-${id}">Name (optional)</label>
-              <input id="item-name-${id}" type="text" class="form-input" placeholder="e.g. Brand A" value="${escHtml(name)}">
+              <label class="form-label" for="item-name-${id}">ชื่อสินค้า (ไม่บังคับ)</label>
+              <input id="item-name-${id}" type="text" class="form-input" placeholder="เช่น ยี่ห้อ A หรือ ไซส์เล็ก" value="${escHtml(name)}">
             </div>
             <div class="form-group" style="flex:1;min-width:90px;">
-              <label class="form-label" for="item-price-${id}">Price</label>
+              <label class="form-label" for="item-price-${id}">ราคา</label>
               <input id="item-price-${id}" type="number" class="form-input" placeholder="0.00" min="0" step="0.01" value="${escHtml(price)}">
             </div>
             <div class="form-group" style="flex:1;min-width:90px;">
-              <label class="form-label" for="item-qty-${id}">Quantity (<span class="unit-label">${getUnitLabel()}</span>)</label>
+              <label class="form-label" for="item-qty-${id}">ปริมาณ (<span class="unit-label">${getUnitLabel()}</span>)</label>
               <input id="item-qty-${id}" type="number" class="form-input" placeholder="1" min="0.001" step="any" value="${escHtml(qty)}">
             </div>
           </div>
@@ -151,7 +153,7 @@
           const id = row.id.replace('item-row-', '');
           return {
             id,
-            name: ($id(`item-name-${id}`) || {}).value || `Item ${id}`,
+            name: ($id(`item-name-${id}`) || {}).value || `รายการที่ ${id}`,
             price: safeFloat(($id(`item-price-${id}`) || {}).value),
             qty: safeFloat(($id(`item-qty-${id}`) || {}).value, 1),
           };
@@ -162,20 +164,17 @@
         const items = getItems();
         const valid = items.filter(i => i.price > 0 && i.qty > 0);
         if (valid.length < 2) {
-          alert('Please enter price and quantity for at least 2 items.');
+          alert('กรุณากรอกราคาและปริมาณอย่างน้อย 2 รายการ');
           return;
         }
 
         const currency = getCurrency();
         const unit = getUnitLabel();
 
-        // Calculate price per unit
         valid.forEach(i => { i.ppu = i.price / i.qty; });
         const minPpu = Math.min(...valid.map(i => i.ppu));
-        const maxPpu = Math.max(...valid.map(i => i.ppu));
         const winner = valid.find(i => i.ppu === minPpu);
 
-        // Build table
         const tbody = $id('results-body');
         tbody.innerHTML = '';
         valid.forEach(item => {
@@ -184,28 +183,26 @@
           const tr = document.createElement('tr');
           if (isBest) tr.classList.add('best');
           tr.innerHTML = `
-            <td>${escHtml(item.name || `Item ${item.id}`)}</td>
+            <td><strong>${escHtml(item.name || `รายการที่ ${item.id}`)}</strong></td>
             <td>${currency}${formatNumber(item.price)}</td>
             <td>${formatNumber(item.qty, 0)} ${unit}</td>
             <td>${currency}${formatNumber(item.ppu, 4)} / ${unit}</td>
-            <td>${isBest ? '<span class="badge badge-success">Best deal</span>' : `<span class="text-muted text-xs">${savings}% more</span>`}</td>
+            <td>${isBest ? '<span class="badge badge-success">คุ้มค่าที่สุด!</span>' : `<span class="text-muted text-xs">แพงกว่า ${savings}%</span>`}</td>
           `;
           tbody.appendChild(tr);
         });
 
-        // Winner box
         const wBox = $id('winner-box');
         wBox.innerHTML = `
-          <div class="result-label">Best deal</div>
-          <div class="result-value">${escHtml(winner.name || `Item ${winner.id}`)}</div>
-          <div class="result-sub">${currency}${formatNumber(winner.ppu, 4)} per ${unit}</div>
+          <div class="result-label">ตัวเลือกที่ประหยัดที่สุด</div>
+          <div class="result-value">${escHtml(winner.name || `รายการที่ ${winner.id}`)}</div>
+          <div class="result-sub">${currency}${formatNumber(winner.ppu, 4)} ต่อ ${unit}</div>
         `;
 
         $id('results-section').classList.remove('hidden');
         $id('results-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
-      // Update unit labels dynamically
       $id('unit-type').addEventListener('change', () => {
         document.querySelectorAll('.unit-label').forEach(el => { el.textContent = getUnitLabel(); });
       });
@@ -213,9 +210,8 @@
       $id('add-item-btn').addEventListener('click', () => addItem());
       $id('compare-btn').addEventListener('click', compare);
 
-      // Start with 2 default items
-      addItem('Item A', '', '');
-      addItem('Item B', '', '');
+      addItem('ตัวเลือก A', '', '');
+      addItem('ตัวเลือก B', '', '');
     })();
   </script>
 </body>

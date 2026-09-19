@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Random Food Picker — Tools Hub</title>
-  <meta name="description" content="Can't decide what to eat? Pick a random food from a built-in list or your custom list. Filter by category.">
-  <meta name="theme-color" content="#0d1017">
+  <title>สุ่มของกิน — Tools Hub</title>
+  <meta name="description" content="คิดไม่ออกว่าจะกินอะไรดี ให้ระบบสุ่มเมนูอาหารให้คุณทันที">
+  <meta name="theme-color" content="#f8fafc">
   <link rel="manifest" href="../manifest.json">
   <link rel="icon" type="image/jpeg" href="../assets/icons/icon-192.jpg">
   <link rel="stylesheet" href="../assets/css/style.css">
@@ -14,61 +14,65 @@
       font-size: var(--text-3xl);
       font-weight: 800;
       color: var(--text);
-      letter-spacing: -0.04em;
-      line-height: 1.1;
-      padding: var(--space-xl) var(--space-lg);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding: var(--space-xl) var(--space-md);
       text-align: center;
     }
     .food-category-badge {
       font-size: var(--text-sm);
-      color: var(--text-muted);
-      margin-top: var(--space-sm);
+      color: var(--primary);
+      font-weight: 500;
+      margin-top: var(--space-xs);
     }
   </style>
 </head>
 <body>
-  <a href="#main-content" class="skip-link">Skip to content</a>
+  <a href="#main-content" class="skip-link">ข้ามไปเนื้อหาหลัก</a>
 
   <header class="site-header" role="banner">
     <div class="container">
-      <a href="../index.html" class="header-back" aria-label="Back to Tools Hub">
+      <a href="../index.html" class="header-back" aria-label="กลับหน้าหลัก Tools Hub">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        Tools Hub
+        หน้าหลัก
       </a>
-      <a href="../index.html" class="site-logo" aria-label="Tools Hub home">
+      <a href="../index.html" class="site-logo" aria-label="หน้าหลัก Tools Hub">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         Tools <span>Hub</span>
       </a>
+      <div class="header-actions">
+        <button type="button" class="theme-toggle-btn" aria-label="สลับโหมดมืด" title="สลับโหมดมืด"></button>
+      </div>
     </div>
   </header>
 
   <main id="main-content" class="page-main">
     <div class="container" style="max-width:640px;">
       <div class="page-header">
-        <h1 class="page-title">Random Food Picker</h1>
-        <p class="page-description">Can't decide what to eat? Let chance decide for you.</p>
+        <h1 class="page-title">สุ่มของกิน</h1>
+        <p class="page-description">มื้อนี้กินอะไรดี? กดสุ่มเมนูทันใจไม่ต้องเสียเวลาคิด</p>
       </div>
 
       <!-- Filter -->
       <div class="card mb-md">
-        <div class="form-row" style="align-items:flex-end;">
-          <div class="form-group" style="flex:1;">
-            <label class="form-label" for="category-filter">Filter by category</label>
+        <div class="form-row" style="align-items:flex-end;flex-wrap:wrap;">
+          <div class="form-group" style="flex:1;min-width:160px;">
+            <label class="form-label" for="category-filter">หมวดหมู่เมนู</label>
             <select id="category-filter" class="form-select">
-              <option value="all">All categories</option>
+              <option value="all">ทุกหมวดหมู่</option>
             </select>
           </div>
           <div class="form-group" style="flex:0 0 auto;">
-            <label class="form-label">Source</label>
-            <div class="flex gap-sm">
+            <label class="form-label">แหล่งข้อมูล</label>
+            <div class="flex gap-sm" style="height:44px;align-items:center;">
               <label class="flex gap-xs" style="align-items:center;cursor:pointer;">
-                <input type="radio" name="source" id="source-default" value="default" checked> Default list
+                <input type="radio" name="source" id="source-default" value="default" checked> เมนูกลาง
               </label>
               <label class="flex gap-xs" style="align-items:center;cursor:pointer;">
-                <input type="radio" name="source" id="source-custom" value="custom"> My list
+                <input type="radio" name="source" id="source-custom" value="custom"> เมนูฉัน
               </label>
               <label class="flex gap-xs" style="align-items:center;cursor:pointer;">
-                <input type="radio" name="source" id="source-both" value="both"> Both
+                <input type="radio" name="source" id="source-both" value="both"> รวมกัน
               </label>
             </div>
           </div>
@@ -78,42 +82,40 @@
       <!-- Result display -->
       <div class="card mb-md" style="min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
         <div id="food-result" class="food-result" aria-live="polite" aria-atomic="true">
-          <span class="text-muted" style="font-size:var(--text-lg);font-weight:400;">Press "Pick" to get started</span>
+          <span class="text-muted" style="font-size:var(--text-lg);font-weight:400;">กดปุ่มด้านล่างเพื่อเริ่มสุ่ม</span>
         </div>
         <div id="food-cat" class="food-category-badge"></div>
       </div>
 
-      <button id="pick-btn" class="btn btn-primary btn-lg btn-block mb-lg">Pick a Random Food</button>
+      <button id="pick-btn" class="btn btn-primary btn-lg btn-block mb-lg">สุ่มเมนูอาหาร</button>
 
       <hr class="divider">
 
       <!-- Custom list management -->
       <div class="card">
-        <h2 class="section-title">My Custom Food List</h2>
-        <div class="form-row mb-md">
-          <div class="form-group" style="flex:2;">
-            <label class="form-label" for="custom-name">Food name</label>
-            <input id="custom-name" type="text" class="form-input" placeholder="e.g. Grandma's Soup">
+        <h2 class="section-title">เมนูโปรดของฉัน</h2>
+        <div class="form-row mb-md" style="flex-wrap:wrap;">
+          <div class="form-group" style="flex:2;min-width:140px;">
+            <label class="form-label" for="custom-name">ชื่อเมนู</label>
+            <input id="custom-name" type="text" class="form-input" placeholder="เช่น ก๋วยเตี๋ยวหน้าปากซอย">
           </div>
-          <div class="form-group" style="flex:1;">
-            <label class="form-label" for="custom-cat">Category</label>
-            <input id="custom-cat" type="text" class="form-input" placeholder="e.g. Home">
+          <div class="form-group" style="flex:1;min-width:100px;">
+            <label class="form-label" for="custom-cat">หมวดหมู่</label>
+            <input id="custom-cat" type="text" class="form-input" placeholder="เช่น ร้านโปรด">
           </div>
           <div style="align-self:flex-end;">
-            <button id="add-custom-btn" class="btn btn-secondary">Add</button>
+            <button id="add-custom-btn" class="btn btn-secondary">เพิ่ม</button>
           </div>
         </div>
 
-        <div id="custom-list" class="flex flex-wrap gap-sm">
-          <!-- tags rendered here -->
-        </div>
-        <p id="custom-empty" class="text-muted text-sm mt-sm">No custom foods yet. Add some above.</p>
+        <div id="custom-list" class="flex flex-wrap gap-sm"></div>
+        <p id="custom-empty" class="text-muted text-sm mt-sm">ยังไม่มีเมนูของตัวเอง เพิ่มได้ที่ช่องด้านบน</p>
       </div>
     </div>
   </main>
 
   <footer class="site-footer" role="contentinfo">
-    <div class="container"><p>Tools Hub &mdash; offline-first, no tracking, no sign-in.</p></div>
+    <div class="container"><p>Tools Hub &mdash; ทำงานออฟไลน์ได้ รวดเร็ว ปลอดภัย</p></div>
   </footer>
 
   <script src="../assets/js/common.js"></script>
@@ -160,7 +162,7 @@
           pool = pool.concat(d);
         }
         if (source === 'custom' || source === 'both') {
-          pool = pool.concat(customFoods.map(f => ({ name: f.name, category: f.category || 'Custom' })));
+          pool = pool.concat(customFoods.map(f => ({ name: f.name, category: f.category || 'เมนูฉัน' })));
         }
         return pool;
       }
@@ -168,14 +170,13 @@
       $id('pick-btn').addEventListener('click', () => {
         const pool = getPool();
         if (pool.length === 0) {
-          $id('food-result').innerHTML = '<span style="font-size:var(--text-lg);font-weight:400;color:var(--text-muted);">No foods in this selection.</span>';
+          $id('food-result').innerHTML = '<span style="font-size:var(--text-lg);font-weight:400;color:var(--text-muted);">ไม่มีเมนูในหมวดนี้</span>';
           $id('food-cat').textContent = '';
           return;
         }
         const chosen = pool[Math.floor(Math.random() * pool.length)];
         const resultEl = $id('food-result');
         resultEl.className = 'food-result';
-        // Re-trigger animation
         void resultEl.offsetWidth;
         resultEl.classList.add('spin-in');
         resultEl.textContent = chosen.name;
@@ -188,7 +189,7 @@
       function addCustomFood() {
         const name = $id('custom-name').value.trim();
         if (!name) return;
-        const cat = $id('custom-cat').value.trim() || 'Custom';
+        const cat = $id('custom-cat').value.trim() || 'เมนูฉัน';
         customFoods.push({ name, category: cat });
         lsSet(CUSTOM_KEY, customFoods);
         $id('custom-name').value = '';
@@ -217,7 +218,7 @@
           const tag = document.createElement('div');
           tag.className = 'tag';
           tag.innerHTML = `${esc(f.name)} <span class="text-xs text-muted">${esc(f.category)}</span>
-            <button class="tag-remove" data-i="${i}" aria-label="Remove ${esc(f.name)}">
+            <button class="tag-remove" data-i="${i}" aria-label="ลบ ${esc(f.name)}">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>`;
           container.appendChild(tag);

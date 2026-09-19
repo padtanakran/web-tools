@@ -179,6 +179,8 @@ const ICONS = {
   'wifi-off': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.56 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>`,
   'download': `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`,
   'tool': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+  'sun': `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`,
+  'moon': `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`,
 };
 
 /**
@@ -189,6 +191,51 @@ const ICONS = {
 function getIcon(name) {
   return ICONS[name] || '';
 }
+
+/* ============================================================
+   Theme Management (Light default with Dark option)
+   ============================================================ */
+
+const THEME_KEY = 'tools-hub:theme';
+
+function getPreferredTheme() {
+  const saved = lsGet(THEME_KEY, null);
+  if (saved) return saved;
+  return 'light'; // Default is white/light theme
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  lsSet(THEME_KEY, theme);
+  updateThemeButtons(theme);
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || getPreferredTheme();
+  const next = current === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+}
+
+function updateThemeButtons(theme) {
+  $qsa('.theme-toggle-btn').forEach(btn => {
+    const isDark = theme === 'dark';
+    btn.setAttribute('aria-label', isDark ? 'สลับเป็นธีมสว่าง' : 'สลับเป็นโหมดมืด');
+    btn.innerHTML = isDark ? getIcon('sun') : getIcon('moon');
+    btn.title = isDark ? 'สลับเป็นธีมสว่าง' : 'สลับเป็นโหมดมืด';
+  });
+}
+
+// Auto init theme on load
+(function() {
+  const theme = getPreferredTheme();
+  document.documentElement.setAttribute('data-theme', theme);
+  document.addEventListener('DOMContentLoaded', () => {
+    updateThemeButtons(theme);
+    $qsa('.theme-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', toggleTheme);
+    });
+  });
+})();
 
 /* ============================================================
    Clipboard helper
@@ -218,7 +265,7 @@ async function copyToClipboard(text) {
  * Show a temporary "Copied!" tooltip on a button.
  */
 function showCopiedFeedback(btn, originalHTML) {
-  btn.innerHTML = getIcon('check') + ' Copied!';
+  btn.innerHTML = getIcon('check') + ' คัดลอกแล้ว!';
   btn.disabled = true;
   setTimeout(() => {
     btn.innerHTML = originalHTML;

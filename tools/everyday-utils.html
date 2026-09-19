@@ -1,143 +1,146 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Everyday Utilities — Tools Hub</title>
-  <meta name="description" content="Tip calculator, bill splitter, age calculator, and more everyday utility tools. All offline-ready.">
-  <meta name="theme-color" content="#0d1017">
+  <title>หารบิล/ทิป — Tools Hub</title>
+  <meta name="description" content="หารค่าอาหาร คิดทิป คำนวณอายุ นับจำนวนวัน คำนวณดัชนีมวลกาย BMI และส่วนลด">
+  <meta name="theme-color" content="#f8fafc">
   <link rel="manifest" href="../manifest.json">
   <link rel="icon" type="image/jpeg" href="../assets/icons/icon-192.jpg">
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-  <a href="#main-content" class="skip-link">Skip to content</a>
+  <a href="#main-content" class="skip-link">ข้ามไปเนื้อหาหลัก</a>
 
   <header class="site-header" role="banner">
     <div class="container">
-      <a href="../index.html" class="header-back" aria-label="Back to Tools Hub">
+      <a href="../index.html" class="header-back" aria-label="กลับหน้าหลัก Tools Hub">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        Tools Hub
+        หน้าหลัก
       </a>
-      <a href="../index.html" class="site-logo" aria-label="Tools Hub home">
+      <a href="../index.html" class="site-logo" aria-label="หน้าหลัก Tools Hub">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         Tools <span>Hub</span>
       </a>
+      <div class="header-actions">
+        <button type="button" class="theme-toggle-btn" aria-label="สลับโหมดมืด" title="สลับโหมดมืด"></button>
+      </div>
     </div>
   </header>
 
   <main id="main-content" class="page-main">
     <div class="container" style="max-width:700px;">
       <div class="page-header">
-        <h1 class="page-title">Everyday Utilities</h1>
-        <p class="page-description">Tip & bill splitter, age calculator, date difference, speed calculator, and more.</p>
+        <h1 class="page-title">หารบิล/ทิป</h1>
+        <p class="page-description">หารค่าอาหาร คิดทิป คำนวณอายุ ระยะเวลาวัน BMI และส่วนลด</p>
       </div>
 
-      <nav class="tabs" aria-label="Utility mode" role="tablist">
-        <button class="tab-btn active" data-mode="tip"       role="tab" aria-selected="true">Tip &amp; Split</button>
-        <button class="tab-btn"        data-mode="age"       role="tab" aria-selected="false">Age</button>
-        <button class="tab-btn"        data-mode="date-diff" role="tab" aria-selected="false">Date Diff</button>
-        <button class="tab-btn"        data-mode="speed"     role="tab" aria-selected="false">Speed</button>
-        <button class="tab-btn"        data-mode="bmi"       role="tab" aria-selected="false">BMI</button>
-        <button class="tab-btn"        data-mode="discount"  role="tab" aria-selected="false">Discount</button>
+      <nav class="tabs" aria-label="โหมดการทำงาน" role="tablist">
+        <button class="tab-btn active" data-mode="tip"       role="tab" aria-selected="true">หารบิล / ทิป</button>
+        <button class="tab-btn"        data-mode="age"       role="tab" aria-selected="false">คำนวณอายุ</button>
+        <button class="tab-btn"        data-mode="date-diff" role="tab" aria-selected="false">คำนวณวัน</button>
+        <button class="tab-btn"        data-mode="speed"     role="tab" aria-selected="false">ความเร็ว/เวลา</button>
+        <button class="tab-btn"        data-mode="bmi"       role="tab" aria-selected="false">ดัชนี BMI</button>
+        <button class="tab-btn"        data-mode="discount"  role="tab" aria-selected="false">ส่วนลด</button>
       </nav>
 
       <!-- TIP & SPLIT -->
       <div id="panel-tip" class="tab-panel active card">
-        <p class="text-muted text-sm mb-md">Calculate tip and split a bill among friends.</p>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="tip-bill">Bill total</label>
-            <input id="tip-bill" type="number" class="form-input" placeholder="100.00" min="0" step="0.01">
+        <p class="text-muted text-sm mb-md">หารค่าอาหารและคิดทิป/เซอร์วิสชาร์จต่อคน</p>
+        <div class="form-row" style="flex-wrap:wrap;">
+          <div class="form-group" style="flex:1;min-width:130px;">
+            <label class="form-label" for="tip-bill">ยอดบิลทั้งหมด (฿)</label>
+            <input id="tip-bill" type="number" class="form-input" placeholder="เช่น 1200" min="0" step="0.01">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="tip-pct">Tip (%)</label>
-            <input id="tip-pct" type="number" class="form-input" value="15" min="0" step="1">
+          <div class="form-group" style="flex:1;min-width:110px;">
+            <label class="form-label" for="tip-pct">ทิป/เซอร์วิส (%)</label>
+            <input id="tip-pct" type="number" class="form-input" value="10" min="0" step="1">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="tip-people">People</label>
-            <input id="tip-people" type="number" class="form-input" value="2" min="1" step="1">
+          <div class="form-group" style="flex:1;min-width:110px;">
+            <label class="form-label" for="tip-people">จำนวนคน</label>
+            <input id="tip-people" type="number" class="form-input" value="3" min="1" step="1">
           </div>
         </div>
         <!-- Quick tip buttons -->
-        <div class="flex gap-xs mt-sm mb-sm flex-wrap">
-          <span class="text-muted text-xs" style="align-self:center;">Quick:</span>
+        <div class="flex gap-xs mt-sm mb-sm flex-wrap" style="align-items:center;">
+          <span class="text-muted text-xs">เลือกด่วน:</span>
+          <button class="btn btn-secondary btn-sm quick-tip" data-pct="0">0%</button>
+          <button class="btn btn-secondary btn-sm quick-tip" data-pct="5">5%</button>
+          <button class="btn btn-secondary btn-sm quick-tip" data-pct="7">7% (VAT)</button>
           <button class="btn btn-secondary btn-sm quick-tip" data-pct="10">10%</button>
           <button class="btn btn-secondary btn-sm quick-tip" data-pct="15">15%</button>
-          <button class="btn btn-secondary btn-sm quick-tip" data-pct="18">18%</button>
-          <button class="btn btn-secondary btn-sm quick-tip" data-pct="20">20%</button>
-          <button class="btn btn-secondary btn-sm quick-tip" data-pct="25">25%</button>
         </div>
-        <button class="btn btn-primary mt-sm btn-block ev-calc-btn" data-mode="tip">Calculate</button>
+        <button class="btn btn-primary mt-sm btn-block ev-calc-btn" data-mode="tip">คำนวณยอดหาร</button>
         <div id="res-tip" class="hidden mt-md">
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:var(--space-sm);">
-            <div class="result-box"><div class="result-label">Tip amount</div><div class="result-value" id="tip-amount"></div></div>
-            <div class="result-box"><div class="result-label">Total with tip</div><div class="result-value" id="tip-total"></div></div>
-            <div class="result-box"><div class="result-label">Per person</div><div class="result-value" id="tip-per-person"></div></div>
+            <div class="result-box"><div class="result-label">ค่าทิป/ชาร์จรวม</div><div class="result-value" id="tip-amount"></div></div>
+            <div class="result-box"><div class="result-label">ยอดสุทธิรวม</div><div class="result-value" id="tip-total"></div></div>
+            <div class="result-box"><div class="result-label">จ่ายคนละ (เฉลี่ย)</div><div class="result-value" style="color:var(--primary)" id="tip-per-person"></div></div>
           </div>
         </div>
       </div>
 
       <!-- AGE -->
       <div id="panel-age" class="tab-panel card">
-        <p class="text-muted text-sm mb-md">Calculate exact age from date of birth.</p>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="age-dob">Date of birth</label>
+        <p class="text-muted text-sm mb-md">คำนวณอายุจริงแบบละเอียด (ปี เดือน วัน)</p>
+        <div class="form-row" style="flex-wrap:wrap;">
+          <div class="form-group" style="flex:1;min-width:150px;">
+            <label class="form-label" for="age-dob">วันเกิดของคุณ</label>
             <input id="age-dob" type="date" class="form-input">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="age-to">Age at date</label>
+          <div class="form-group" style="flex:1;min-width:150px;">
+            <label class="form-label" for="age-to">เทียบกับวันที่</label>
             <input id="age-to" type="date" class="form-input">
           </div>
         </div>
-        <button class="btn btn-primary mt-md btn-block ev-calc-btn" data-mode="age">Calculate Age</button>
+        <button class="btn btn-primary mt-md btn-block ev-calc-btn" data-mode="age">คำนวณอายุ</button>
         <div id="res-age" class="hidden mt-md">
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:var(--space-sm);">
-            <div class="result-box"><div class="result-label">Years</div><div class="result-value" id="age-years"></div></div>
-            <div class="result-box"><div class="result-label">Months</div><div class="result-value" id="age-months"></div></div>
-            <div class="result-box"><div class="result-label">Days</div><div class="result-value" id="age-days"></div></div>
-            <div class="result-box"><div class="result-label">Total days</div><div class="result-value" id="age-total-days"></div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:var(--space-sm);">
+            <div class="result-box"><div class="result-label">ปี</div><div class="result-value" id="age-years"></div></div>
+            <div class="result-box"><div class="result-label">เดือน</div><div class="result-value" id="age-months"></div></div>
+            <div class="result-box"><div class="result-label">วัน</div><div class="result-value" id="age-days"></div></div>
+            <div class="result-box"><div class="result-label">รวมทั้งหมด (วัน)</div><div class="result-value" id="age-total-days"></div></div>
           </div>
         </div>
       </div>
 
       <!-- DATE DIFF -->
       <div id="panel-date-diff" class="tab-panel card">
-        <p class="text-muted text-sm mb-md">Find the number of days, weeks, and months between two dates.</p>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label" for="dd-start">Start date</label><input id="dd-start" type="date" class="form-input"></div>
-          <div class="form-group"><label class="form-label" for="dd-end">End date</label><input id="dd-end" type="date" class="form-input"></div>
+        <p class="text-muted text-sm mb-md">นับจำนวนวัน สัปดาห์ และเดือน ระหว่างสองวันที่</p>
+        <div class="form-row" style="flex-wrap:wrap;">
+          <div class="form-group" style="flex:1;min-width:150px;"><label class="form-label" for="dd-start">วันเริ่มต้น</label><input id="dd-start" type="date" class="form-input"></div>
+          <div class="form-group" style="flex:1;min-width:150px;"><label class="form-label" for="dd-end">วันสิ้นสุด</label><input id="dd-end" type="date" class="form-input"></div>
         </div>
-        <button class="btn btn-primary mt-md btn-block ev-calc-btn" data-mode="date-diff">Calculate Difference</button>
+        <button class="btn btn-primary mt-md btn-block ev-calc-btn" data-mode="date-diff">คำนวณระยะห่าง</button>
         <div id="res-date-diff" class="hidden mt-md">
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:var(--space-sm);">
-            <div class="result-box"><div class="result-label">Days</div><div class="result-value" id="dd-days"></div></div>
-            <div class="result-box"><div class="result-label">Weeks</div><div class="result-value" id="dd-weeks"></div></div>
-            <div class="result-box"><div class="result-label">Months (approx)</div><div class="result-value" id="dd-months"></div></div>
-            <div class="result-box"><div class="result-label">Years (approx)</div><div class="result-value" id="dd-years"></div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:var(--space-sm);">
+            <div class="result-box"><div class="result-label">จำนวนวัน</div><div class="result-value" id="dd-days"></div></div>
+            <div class="result-box"><div class="result-label">จำนวนสัปดาห์</div><div class="result-value" id="dd-weeks"></div></div>
+            <div class="result-box"><div class="result-label">จำนวนเดือน (โดยประมาณ)</div><div class="result-value" id="dd-months"></div></div>
+            <div class="result-box"><div class="result-label">จำนวนปี (โดยประมาณ)</div><div class="result-value" id="dd-years"></div></div>
           </div>
         </div>
       </div>
 
       <!-- SPEED -->
       <div id="panel-speed" class="tab-panel card">
-        <p class="text-muted text-sm mb-md">Calculate speed, distance, or time. Fill in two values to find the third.</p>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="sp-distance">Distance (km)</label>
-            <input id="sp-distance" type="number" class="form-input" placeholder="Leave blank to calculate">
+        <p class="text-muted text-sm mb-md">คำนวณความเร็ว ระยะทาง หรือเวลา (กรอก 2 ช่องเพื่อหาช่องที่เว้นว่างไว้)</p>
+        <div class="form-row" style="flex-wrap:wrap;">
+          <div class="form-group" style="flex:1;min-width:130px;">
+            <label class="form-label" for="sp-distance">ระยะทาง (กม.)</label>
+            <input id="sp-distance" type="number" class="form-input" placeholder="เว้นว่างเพื่อคำนวณ">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="sp-speed">Speed (km/h)</label>
-            <input id="sp-speed" type="number" class="form-input" placeholder="Leave blank to calculate">
+          <div class="form-group" style="flex:1;min-width:130px;">
+            <label class="form-label" for="sp-speed">ความเร็ว (กม./ชม.)</label>
+            <input id="sp-speed" type="number" class="form-input" placeholder="เว้นว่างเพื่อคำนวณ">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="sp-time">Time (hours)</label>
-            <input id="sp-time" type="number" class="form-input" placeholder="Leave blank to calculate">
+          <div class="form-group" style="flex:1;min-width:130px;">
+            <label class="form-label" for="sp-time">เวลา (ชั่วโมง)</label>
+            <input id="sp-time" type="number" class="form-input" placeholder="เว้นว่างเพื่อคำนวณ">
           </div>
         </div>
-        <button class="btn btn-primary mt-md btn-block ev-calc-btn" data-mode="speed">Calculate</button>
+        <button class="btn btn-primary mt-md btn-block ev-calc-btn" data-mode="speed">คำนวณ</button>
         <div id="res-speed" class="result-box mt-md hidden">
           <div class="result-label" id="speed-label"></div>
           <div class="result-value" id="speed-value"></div>
@@ -147,48 +150,47 @@
 
       <!-- BMI -->
       <div id="panel-bmi" class="tab-panel card">
-        <p class="text-muted text-sm mb-md">Calculate your Body Mass Index (BMI). This is for general reference only.</p>
+        <p class="text-muted text-sm mb-md">คำนวณค่าดัชนีมวลกาย (BMI) เพื่อเช็คเกณฑ์สุขภาพเบื้องต้น</p>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Unit system</label>
+            <label class="form-label">ระบบหน่วย</label>
             <div class="flex gap-sm mt-xs">
-              <label class="flex gap-xs" style="cursor:pointer;align-items:center;"><input type="radio" name="bmi-unit" value="metric" checked> Metric</label>
-              <label class="flex gap-xs" style="cursor:pointer;align-items:center;"><input type="radio" name="bmi-unit" value="imperial"> Imperial</label>
+              <label class="flex gap-xs" style="cursor:pointer;align-items:center;"><input type="radio" name="bmi-unit" value="metric" checked> เมตริก (cm / kg)</label>
+              <label class="flex gap-xs" style="cursor:pointer;align-items:center;"><input type="radio" name="bmi-unit" value="imperial"> อิมพีเรียล (ft / lb)</label>
             </div>
           </div>
         </div>
-        <div id="bmi-metric-fields" class="form-row">
-          <div class="form-group"><label class="form-label" for="bmi-height-cm">Height (cm)</label><input id="bmi-height-cm" type="number" class="form-input" placeholder="170"></div>
-          <div class="form-group"><label class="form-label" for="bmi-weight-kg">Weight (kg)</label><input id="bmi-weight-kg" type="number" class="form-input" placeholder="70"></div>
+        <div id="bmi-metric-fields" class="form-row" style="flex-wrap:wrap;">
+          <div class="form-group" style="flex:1;min-width:140px;"><label class="form-label" for="bmi-height-cm">ส่วนสูง (ซม.)</label><input id="bmi-height-cm" type="number" class="form-input" placeholder="เช่น 170"></div>
+          <div class="form-group" style="flex:1;min-width:140px;"><label class="form-label" for="bmi-weight-kg">น้ำหนัก (กก.)</label><input id="bmi-weight-kg" type="number" class="form-input" placeholder="เช่น 65"></div>
         </div>
-        <div id="bmi-imperial-fields" class="form-row hidden">
-          <div class="form-group"><label class="form-label" for="bmi-height-ft">Height (ft)</label><input id="bmi-height-ft" type="number" class="form-input" placeholder="5"></div>
-          <div class="form-group"><label class="form-label" for="bmi-height-in">Height (in)</label><input id="bmi-height-in" type="number" class="form-input" placeholder="9"></div>
-          <div class="form-group"><label class="form-label" for="bmi-weight-lb">Weight (lb)</label><input id="bmi-weight-lb" type="number" class="form-input" placeholder="154"></div>
+        <div id="bmi-imperial-fields" class="form-row hidden" style="flex-wrap:wrap;">
+          <div class="form-group" style="flex:1;min-width:90px;"><label class="form-label" for="bmi-height-ft">ส่วนสูง (ฟุต)</label><input id="bmi-height-ft" type="number" class="form-input" placeholder="5"></div>
+          <div class="form-group" style="flex:1;min-width:90px;"><label class="form-label" for="bmi-height-in">ส่วนสูง (นิ้ว)</label><input id="bmi-height-in" type="number" class="form-input" placeholder="7"></div>
+          <div class="form-group" style="flex:1;min-width:90px;"><label class="form-label" for="bmi-weight-lb">น้ำหนัก (ปอนด์)</label><input id="bmi-weight-lb" type="number" class="form-input" placeholder="140"></div>
         </div>
-        <button class="btn btn-primary mt-md btn-block ev-calc-btn" data-mode="bmi">Calculate BMI</button>
+        <button class="btn btn-primary mt-md btn-block ev-calc-btn" data-mode="bmi">คำนวณ BMI</button>
         <div id="res-bmi" class="hidden mt-md">
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:var(--space-sm);">
-            <div class="result-box"><div class="result-label">BMI</div><div class="result-value" id="bmi-value"></div></div>
-            <div class="result-box"><div class="result-label">Category</div><div class="result-value" id="bmi-category" style="font-size:var(--text-lg)"></div></div>
+            <div class="result-box"><div class="result-label">ค่าดัชนี BMI</div><div class="result-value" id="bmi-value"></div></div>
+            <div class="result-box"><div class="result-label">เกณฑ์สุขภาพ</div><div class="result-value" id="bmi-category" style="font-size:var(--text-lg)"></div></div>
           </div>
-          <p class="text-muted text-xs mt-sm">BMI is a general screening tool and does not account for muscle mass, age, or other factors.</p>
         </div>
       </div>
 
       <!-- DISCOUNT -->
       <div id="panel-discount" class="tab-panel card">
-        <p class="text-muted text-sm mb-md">Find the final price after a discount and see how much you save.</p>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label" for="disc-original">Original price</label><input id="disc-original" type="number" class="form-input" placeholder="100" min="0" step="0.01"></div>
-          <div class="form-group"><label class="form-label" for="disc-pct">Discount (%)</label><input id="disc-pct" type="number" class="form-input" placeholder="20" min="0" max="100"></div>
+        <p class="text-muted text-sm mb-md">คำนวณราคาหลังหักส่วนลดและยอดเงินที่ประหยัดได้</p>
+        <div class="form-row" style="flex-wrap:wrap;">
+          <div class="form-group" style="flex:1;min-width:140px;"><label class="form-label" for="disc-original">ราคาเต็ม (฿)</label><input id="disc-original" type="number" class="form-input" placeholder="เช่น 590" min="0" step="0.01"></div>
+          <div class="form-group" style="flex:1;min-width:140px;"><label class="form-label" for="disc-pct">ส่วนลด (%)</label><input id="disc-pct" type="number" class="form-input" placeholder="เช่น 20" min="0" max="100"></div>
         </div>
-        <button class="btn btn-primary mt-md btn-block ev-calc-btn" data-mode="discount">Calculate</button>
+        <button class="btn btn-primary mt-md btn-block ev-calc-btn" data-mode="discount">คำนวณส่วนลด</button>
         <div id="res-discount" class="hidden mt-md">
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:var(--space-sm);">
-            <div class="result-box"><div class="result-label">Final price</div><div class="result-value" id="disc-final"></div></div>
-            <div class="result-box"><div class="result-label">You save</div><div class="result-value" style="color:var(--success)" id="disc-saving"></div></div>
-            <div class="result-box"><div class="result-label">Savings rate</div><div class="result-value" id="disc-rate"></div></div>
+            <div class="result-box"><div class="result-label">ราคาจ่ายจริง</div><div class="result-value" id="disc-final"></div></div>
+            <div class="result-box"><div class="result-label">ประหยัดเงินได้</div><div class="result-value" style="color:var(--success)" id="disc-saving"></div></div>
+            <div class="result-box"><div class="result-label">ส่วนลด</div><div class="result-value" id="disc-rate"></div></div>
           </div>
         </div>
       </div>
@@ -196,7 +198,7 @@
   </main>
 
   <footer class="site-footer" role="contentinfo">
-    <div class="container"><p>Tools Hub &mdash; offline-first, no tracking, no sign-in.</p></div>
+    <div class="container"><p>Tools Hub &mdash; ทำงานออฟไลน์ได้ รวดเร็ว ปลอดภัย</p></div>
   </footer>
 
   <script src="../assets/js/common.js"></script>
@@ -206,12 +208,10 @@
       registerServiceWorker('../sw.js');
       recordToolVisit('everyday-utils');
 
-      // Set today as default for date inputs
       const today = new Date().toISOString().split('T')[0];
       $id('age-to').value = today;
       $id('dd-end').value = today;
 
-      // Tab switching
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const mode = btn.dataset.mode;
@@ -223,7 +223,6 @@
         });
       });
 
-      // Calculate buttons
       document.querySelectorAll('.ev-calc-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           switch (btn.dataset.mode) {
@@ -237,12 +236,10 @@
         });
       });
 
-      // Quick tip buttons
       document.querySelectorAll('.quick-tip').forEach(btn => {
         btn.addEventListener('click', () => { $id('tip-pct').value = btn.dataset.pct; calcTip(); });
       });
 
-      // BMI unit toggle
       document.querySelectorAll('input[name="bmi-unit"]').forEach(r => {
         r.addEventListener('change', () => {
           const isMetric = r.value === 'metric';
@@ -251,14 +248,13 @@
         });
       });
 
-      function fmt(n, d=2) { return formatNumber(n, d); }
+      function fmt(n, d=2) { return '฿' + formatNumber(n, d); }
 
-      // ---- Tip ----
       function calcTip() {
         const bill = safeFloat($id('tip-bill').value);
         const tipPct = safeFloat($id('tip-pct').value);
         const people = Math.max(1, Math.floor(safeFloat($id('tip-people').value, 1)));
-        if (bill <= 0) { alert('Enter the bill total.'); return; }
+        if (bill <= 0) { alert('กรุณากรอกยอดบิลทั้งหมด'); return; }
         const tip = bill * (tipPct / 100);
         const total = bill + tip;
         $id('tip-amount').textContent = fmt(tip);
@@ -267,12 +263,11 @@
         $id('res-tip').classList.remove('hidden');
       }
 
-      // ---- Age ----
       function calcAge() {
         const dob = new Date($id('age-dob').value);
         const to  = new Date($id('age-to').value);
-        if (isNaN(dob) || isNaN(to)) { alert('Select valid dates.'); return; }
-        if (dob >= to) { alert('Date of birth must be before the target date.'); return; }
+        if (isNaN(dob) || isNaN(to)) { alert('กรุณาเลือกวันที่ให้ถูกต้อง'); return; }
+        if (dob >= to) { alert('วันเกิดต้องอยู่ก่อนวันที่ต้องการเทียบ'); return; }
 
         let years = to.getFullYear() - dob.getFullYear();
         let months = to.getMonth() - dob.getMonth();
@@ -293,11 +288,10 @@
         $id('res-age').classList.remove('hidden');
       }
 
-      // ---- Date diff ----
       function calcDateDiff() {
         const start = new Date($id('dd-start').value);
         const end   = new Date($id('dd-end').value);
-        if (isNaN(start) || isNaN(end)) { alert('Select valid dates.'); return; }
+        if (isNaN(start) || isNaN(end)) { alert('กรุณาเลือกวันที่ให้ถูกต้อง'); return; }
         const diffMs = Math.abs(end - start);
         const days   = Math.floor(diffMs / 86400000);
         const weeks  = (days / 7).toFixed(1);
@@ -310,28 +304,27 @@
         $id('res-date-diff').classList.remove('hidden');
       }
 
-      // ---- Speed ----
       function calcSpeed() {
         const d = $id('sp-distance').value;
         const s = $id('sp-speed').value;
         const t = $id('sp-time').value;
         const blank = [d,s,t].filter(v => v === '').length;
-        if (blank !== 1) { alert('Leave exactly ONE field blank to calculate it.'); return; }
+        if (blank !== 1) { alert('กรุณาเว้นว่างไว้เพียง 1 ช่อง เพื่อคำนวณค่านั้น'); return; }
 
         let label, value, sub;
         if (d === '') {
           const res = safeFloat(s) * safeFloat(t);
-          label = 'Distance'; value = fmt(res) + ' km';
-          sub = `${fmt(safeFloat(s))} km/h for ${fmt(safeFloat(t))} h`;
+          label = 'ระยะทางที่ได้'; value = formatNumber(res, 2) + ' กม.';
+          sub = `วิ่งด้วยความเร็ว ${formatNumber(safeFloat(s), 1)} กม./ชม. ในเวลา ${formatNumber(safeFloat(t), 2)} ชม.`;
         } else if (s === '') {
           const res = safeFloat(d) / safeFloat(t);
-          label = 'Speed'; value = fmt(res) + ' km/h';
-          sub = `${fmt(safeFloat(d))} km in ${fmt(safeFloat(t))} h`;
+          label = 'ความเร็วเฉลี่ย'; value = formatNumber(res, 2) + ' กม./ชม.';
+          sub = `ระยะทาง ${formatNumber(safeFloat(d), 2)} กม. ในเวลา ${formatNumber(safeFloat(t), 2)} ชม.`;
         } else {
           const res = safeFloat(d) / safeFloat(s);
-          label = 'Time'; value = fmt(res) + ' hours';
+          label = 'เวลาที่ใช้'; value = formatNumber(res, 2) + ' ชั่วโมง';
           const mins = res * 60;
-          sub = `${Math.floor(res)}h ${Math.round(mins % 60)}m`;
+          sub = `ประมาณ ${Math.floor(res)} ชม. ${Math.round(mins % 60)} นาที`;
         }
 
         $id('speed-label').textContent = label;
@@ -340,7 +333,6 @@
         $id('res-speed').classList.remove('hidden');
       }
 
-      // ---- BMI ----
       function calcBMI() {
         const unit = document.querySelector('input[name="bmi-unit"]:checked').value;
         let heightM, weightKg;
@@ -355,31 +347,31 @@
           weightKg = safeFloat($id('bmi-weight-lb').value) * 0.453592;
         }
 
-        if (heightM <= 0 || weightKg <= 0) { alert('Enter valid height and weight.'); return; }
+        if (heightM <= 0 || weightKg <= 0) { alert('กรุณากรอกส่วนสูงและน้ำหนักให้ถูกต้อง'); return; }
 
         const bmi = weightKg / (heightM * heightM);
         let category, color;
-        if (bmi < 18.5)      { category = 'Underweight'; color = 'var(--warning)'; }
-        else if (bmi < 25)   { category = 'Normal weight'; color = 'var(--success)'; }
-        else if (bmi < 30)   { category = 'Overweight'; color = 'var(--warning)'; }
-        else                  { category = 'Obese'; color = 'var(--danger)'; }
+        if (bmi < 18.5)      { category = 'น้ำหนักน้อยกว่าเกณฑ์'; color = 'var(--warning)'; }
+        else if (bmi < 23)   { category = 'สมส่วน / ปกติ'; color = 'var(--success)'; }
+        else if (bmi < 25)   { category = 'น้ำหนักเกิน (ท้วม)'; color = 'var(--warning)'; }
+        else if (bmi < 30)   { category = 'อ้วนระดับ 1'; color = 'var(--danger)'; }
+        else                  { category = 'อ้วนระดับ 2 (อันตราย)'; color = 'var(--danger)'; }
 
-        $id('bmi-value').textContent = fmt(bmi, 1);
+        $id('bmi-value').textContent = formatNumber(bmi, 1);
         $id('bmi-category').textContent = category;
         $id('bmi-category').style.color = color;
         $id('res-bmi').classList.remove('hidden');
       }
 
-      // ---- Discount ----
       function calcDiscount() {
         const orig = safeFloat($id('disc-original').value);
         const pct  = safeFloat($id('disc-pct').value);
-        if (orig <= 0) { alert('Enter the original price.'); return; }
+        if (orig <= 0) { alert('กรุณากรอกราคาเต็ม'); return; }
         const saving = orig * (pct / 100);
         const final  = orig - saving;
         $id('disc-final').textContent  = fmt(final);
         $id('disc-saving').textContent = fmt(saving);
-        $id('disc-rate').textContent   = fmt(pct, 1) + '%';
+        $id('disc-rate').textContent   = formatNumber(pct, 1) + '%';
         $id('res-discount').classList.remove('hidden');
       }
     })();

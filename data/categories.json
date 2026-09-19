@@ -1,7 +1,7 @@
 [
-  { "id": "shopping",     "label": "Shopping",     "description": "Compare prices and find best value" },
-  { "id": "math",         "label": "Math",         "description": "Calculators and unit converters" },
-  { "id": "finance",      "label": "Finance",      "description": "Loan, savings and financial tools" },
-  { "id": "lifestyle",    "label": "Lifestyle",    "description": "Everyday life helpers" },
-  { "id": "productivity", "label": "Productivity", "description": "Text and work utilities" }
+  { "id": "shopping",     "label": "ซื้อของ",   "description": "เทียบราคาและความคุ้มค่า" },
+  { "id": "math",         "label": "คำนวณ",    "description": "เครื่องคิดเลขและแปลงหน่วย" },
+  { "id": "finance",      "label": "การเงิน",   "description": "กู้เงิน ออมเงิน ดอกเบี้ย" },
+  { "id": "lifestyle",    "label": "ไลฟ์สไตล์", "description": "ตัวช่วยใช้ชีวิตประจำวัน" },
+  { "id": "productivity", "label": "งาน/ข้อความ", "description": "จัดการข้อความและงานทั่วไป" }
 ]

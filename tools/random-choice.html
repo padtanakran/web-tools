@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Random Choice Picker — Tools Hub</title>
-  <meta name="description" content="Add your options and let the tool randomly pick one for you. Save and reuse your lists.">
-  <meta name="theme-color" content="#0d1017">
+  <title>วงล้อสุ่ม — Tools Hub</title>
+  <meta name="description" content="สุ่มตัวเลือกหรือจับฉลากรายชื่อจากรายการของคุณทันใจ ใช้งานง่าย ออฟไลน์ได้">
+  <meta name="theme-color" content="#f8fafc">
   <link rel="manifest" href="../manifest.json">
   <link rel="icon" type="image/jpeg" href="../assets/icons/icon-192.jpg">
   <link rel="stylesheet" href="../assets/css/style.css">
@@ -13,8 +13,9 @@
     .choice-result-big {
       font-size: var(--text-2xl);
       font-weight: 800;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.02em;
       line-height: 1.2;
+      color: var(--primary);
     }
     .history-item {
       display: flex;
@@ -28,71 +29,74 @@
     .history-num {
       color: var(--text-faint);
       font-size: var(--text-xs);
-      min-width: 20px;
+      min-width: 24px;
     }
   </style>
 </head>
 <body>
-  <a href="#main-content" class="skip-link">Skip to content</a>
+  <a href="#main-content" class="skip-link">ข้ามไปเนื้อหาหลัก</a>
 
   <header class="site-header" role="banner">
     <div class="container">
-      <a href="../index.html" class="header-back" aria-label="Back to Tools Hub">
+      <a href="../index.html" class="header-back" aria-label="กลับหน้าหลัก Tools Hub">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        Tools Hub
+        หน้าหลัก
       </a>
-      <a href="../index.html" class="site-logo" aria-label="Tools Hub home">
+      <a href="../index.html" class="site-logo" aria-label="หน้าหลัก Tools Hub">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         Tools <span>Hub</span>
       </a>
+      <div class="header-actions">
+        <button type="button" class="theme-toggle-btn" aria-label="สลับโหมดมืด" title="สลับโหมดมืด"></button>
+      </div>
     </div>
   </header>
 
   <main id="main-content" class="page-main">
     <div class="container" style="max-width:640px;">
       <div class="page-header">
-        <h1 class="page-title">Random Choice Picker</h1>
-        <p class="page-description">Add your options, press Pick, and let chance decide. Lists are saved locally.</p>
+        <h1 class="page-title">วงล้อสุ่ม</h1>
+        <p class="page-description">ใส่รายการตัวเลือก แล้วให้ระบบสุ่มตัดสินใจให้คุณ</p>
       </div>
 
       <!-- Add option -->
       <div class="card mb-md">
         <div class="form-row">
           <div class="form-group" style="flex:1;">
-            <label class="form-label" for="option-input">Add an option</label>
-            <input id="option-input" type="text" class="form-input" placeholder="e.g. Go hiking">
+            <label class="form-label" for="option-input">เพิ่มตัวเลือก</label>
+            <input id="option-input" type="text" class="form-input" placeholder="เช่น ไปทะเล, กินชาบู, ดูหนัง">
           </div>
           <div style="align-self:flex-end;">
-            <button id="add-option-btn" class="btn btn-secondary">Add</button>
+            <button id="add-option-btn" class="btn btn-secondary">เพิ่ม</button>
           </div>
         </div>
 
         <!-- Options tags -->
         <div id="options-tags" class="flex flex-wrap gap-sm mt-md"></div>
-        <p id="options-empty" class="text-muted text-sm mt-sm">Add at least 2 options to get started.</p>
+        <p id="options-empty" class="text-muted text-sm mt-sm">ใส่ตัวเลือกอย่างน้อย 2 รายการเพื่อเริ่มสุ่ม</p>
 
         <div class="flex gap-sm mt-md flex-wrap">
-          <button id="clear-btn" class="btn btn-danger btn-sm">Clear all</button>
-          <button id="save-btn" class="btn btn-secondary btn-sm">Save list</button>
-          <button id="load-btn" class="btn btn-secondary btn-sm">Load saved</button>
+          <button id="clear-btn" class="btn btn-danger btn-sm">ล้างทั้งหมด</button>
+          <button id="save-btn" class="btn btn-secondary btn-sm">บันทึกชุดนี้</button>
+          <button id="load-btn" class="btn btn-secondary btn-sm">โหลดที่บันทึก</button>
         </div>
       </div>
 
       <!-- Result -->
       <div id="result-card" class="card mb-md" style="min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
-        <p class="text-muted" id="result-placeholder">Your choice will appear here.</p>
+        <p class="text-muted" id="result-placeholder">ผลการสุ่มจะแสดงที่นี่</p>
         <div id="result-display" class="hidden">
           <div class="choice-result-big" id="choice-text"></div>
         </div>
       </div>
 
-      <button id="pick-btn" class="btn btn-primary btn-lg btn-block mb-lg" disabled>Pick for me</button>
+      <button id="pick-btn" class="btn btn-primary btn-lg btn-block mb-lg" disabled>สุ่มเลย!</button>
 
       <!-- History -->
       <div id="history-section" class="card hidden">
         <div class="flex-between mb-sm">
-          <h2 class="section-title" style="margin-bottom:0;border:none;">Pick history</h2>
-          <button id="clear-history-btn" class="btn btn-secondary btn-sm">Clear</button>
+          <h2 class="section-title" style="margin-bottom:0;border:none;">ประวัติการสุ่ม</h2>
+          <button id="clear-history-btn" class="btn btn-secondary btn-sm">ล้างประวัติ</button>
         </div>
         <div id="history-list"></div>
       </div>
@@ -100,7 +104,7 @@
   </main>
 
   <footer class="site-footer" role="contentinfo">
-    <div class="container"><p>Tools Hub &mdash; offline-first, no tracking, no sign-in.</p></div>
+    <div class="container"><p>Tools Hub &mdash; ทำงานออฟไลน์ได้ รวดเร็ว ปลอดภัย</p></div>
   </footer>
 
   <script src="../assets/js/common.js"></script>
@@ -135,7 +139,7 @@
           const tag = document.createElement('div');
           tag.className = 'tag';
           tag.innerHTML = `${esc(opt)}
-            <button class="tag-remove" data-i="${i}" aria-label="Remove ${esc(opt)}">
+            <button class="tag-remove" data-i="${i}" aria-label="ลบ ${esc(opt)}">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>`;
           container.appendChild(tag);
@@ -163,21 +167,21 @@
       $id('option-input').addEventListener('keydown', e => { if (e.key === 'Enter') addOption(); });
 
       $id('clear-btn').addEventListener('click', () => {
-        if (options.length > 0 && !confirm('Clear all options?')) return;
+        if (options.length > 0 && !confirm('ต้องการล้างตัวเลือกทั้งหมดหรือไม่?')) return;
         options = [];
         lsSet(OPTIONS_KEY, options);
         renderOptions();
       });
 
       $id('save-btn').addEventListener('click', () => {
-        if (options.length === 0) { alert('Nothing to save.'); return; }
+        if (options.length === 0) { alert('ยังไม่มีตัวเลือกให้บันทึก'); return; }
         lsSet(OPTIONS_KEY, options);
-        alert('List saved to your browser.');
+        alert('บันทึกชุดตัวเลือกลงในอุปกรณ์เรียบร้อย');
       });
 
       $id('load-btn').addEventListener('click', () => {
         const saved = lsGet(OPTIONS_KEY, []);
-        if (saved.length === 0) { alert('No saved list found.'); return; }
+        if (saved.length === 0) { alert('ไม่พบข้อมูลที่บันทึกไว้'); return; }
         options = saved;
         renderOptions();
       });
@@ -198,7 +202,6 @@
         textEl.classList.add('spin-in');
         textEl.textContent = chosen;
 
-        // Add to history
         history.unshift(chosen);
         if (history.length > 20) history.pop();
         lsSet(HISTORY_KEY, history);
@@ -214,7 +217,7 @@
         history.forEach((item, i) => {
           const div = document.createElement('div');
           div.className = 'history-item';
-          div.innerHTML = `<span class="history-num">${i + 1}</span><span>${esc(item)}</span>`;
+          div.innerHTML = `<span class="history-num">#${i + 1}</span><span>${esc(item)}</span>`;
           list.appendChild(div);
         });
       }
@@ -225,7 +228,6 @@
         renderHistory();
       });
 
-      // Init
       renderOptions();
       renderHistory();
     })();

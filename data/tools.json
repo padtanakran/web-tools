@@ -1,64 +1,64 @@
 [
   {
     "id": "price-comparison",
-    "name": "Price Comparison",
-    "description": "Compare items by price per unit to find the best deal.",
+    "name": "เทียบราคา",
+    "description": "หาของที่ถูกและคุ้มสุดต่อหน่วย",
     "category": "shopping",
     "path": "./tools/price-comparison.html"
   },
   {
     "id": "value-calculator",
-    "name": "Value Calculator",
-    "description": "Score products by price, quality, and quantity to find true value.",
+    "name": "คิดความคุ้ม",
+    "description": "เทียบความคุ้มค่าตามคะแนนและราคา",
     "category": "shopping",
     "path": "./tools/value-calculator.html"
   },
   {
     "id": "random-food",
-    "name": "Random Food Picker",
-    "description": "Can't decide what to eat? Let this tool choose for you.",
+    "name": "สุ่มของกิน",
+    "description": "คิดไม่ออกว่าจะกินอะไร สุ่มเลย",
     "category": "lifestyle",
     "path": "./tools/random-food.html"
   },
   {
     "id": "percentage-calc",
-    "name": "Percentage Calculator",
-    "description": "Find percentages, percent change, markup, discount and more.",
+    "name": "เปอร์เซ็นต์",
+    "description": "คิด % เพิ่ม ลด กำไร ส่วนลด",
     "category": "math",
     "path": "./tools/percentage-calc.html"
   },
   {
     "id": "unit-converter",
-    "name": "Unit Converter",
-    "description": "Convert between length, weight, temperature, and volume units.",
+    "name": "แปลงหน่วย",
+    "description": "แปลงความยาว น้ำหนัก ปริมาตร",
     "category": "math",
     "path": "./tools/unit-converter.html"
   },
   {
     "id": "random-choice",
-    "name": "Random Choice Picker",
-    "description": "Add your options and let the tool pick one at random.",
+    "name": "วงล้อสุ่ม",
+    "description": "สุ่มชื่อหรือตัวเลือกจากรายการ",
     "category": "lifestyle",
     "path": "./tools/random-choice.html"
   },
   {
     "id": "finance-calc",
-    "name": "Finance Calculator",
-    "description": "Calculate loan payments, savings goals, and compound interest.",
+    "name": "ดอกเบี้ย/กู้",
+    "description": "คำนวณค่างวดกู้และดอกเบี้ยทบต้น",
     "category": "finance",
     "path": "./tools/finance-calc.html"
   },
   {
     "id": "text-utils",
-    "name": "Text Utilities",
-    "description": "Count words, convert case, clean up whitespace, and more.",
+    "name": "นับ/แต่งคำ",
+    "description": "นับคำ ตัวอักษร และตัดวรรคเกิน",
     "category": "productivity",
     "path": "./tools/text-utils.html"
   },
   {
     "id": "everyday-utils",
-    "name": "Everyday Utilities",
-    "description": "Tip calculator, bill splitter, age calculator, and more.",
+    "name": "หารบิล/ทิป",
+    "description": "หารค่าอาหาร คิดทิป คำนวณอายุ",
     "category": "lifestyle",
     "path": "./tools/everyday-utils.html"
   }

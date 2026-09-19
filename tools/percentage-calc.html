@@ -1,119 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Percentage Calculator — Tools Hub</title>
-  <meta name="description" content="Calculate percentages, percent of a number, percent change, markup, and discount. Multiple calculation modes.">
-  <meta name="theme-color" content="#0d1017">
+  <title>เปอร์เซ็นต์ — Tools Hub</title>
+  <meta name="description" content="คำนวณเปอร์เซ็นต์ทุกรูปแบบ หาค่า % ส่วนลด ภาษี เพิ่มลด กำไร">
+  <meta name="theme-color" content="#f8fafc">
   <link rel="manifest" href="../manifest.json">
   <link rel="icon" type="image/jpeg" href="../assets/icons/icon-192.jpg">
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-  <a href="#main-content" class="skip-link">Skip to content</a>
+  <a href="#main-content" class="skip-link">ข้ามไปเนื้อหาหลัก</a>
 
   <header class="site-header" role="banner">
     <div class="container">
-      <a href="../index.html" class="header-back" aria-label="Back to Tools Hub">
+      <a href="../index.html" class="header-back" aria-label="กลับหน้าหลัก Tools Hub">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        Tools Hub
+        หน้าหลัก
       </a>
-      <a href="../index.html" class="site-logo" aria-label="Tools Hub home">
+      <a href="../index.html" class="site-logo" aria-label="หน้าหลัก Tools Hub">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         Tools <span>Hub</span>
       </a>
+      <div class="header-actions">
+        <button type="button" class="theme-toggle-btn" aria-label="สลับโหมดมืด" title="สลับโหมดมืด"></button>
+      </div>
     </div>
   </header>
 
   <main id="main-content" class="page-main">
     <div class="container" style="max-width:640px;">
       <div class="page-header">
-        <h1 class="page-title">Percentage Calculator</h1>
-        <p class="page-description">Six calculation modes: find percentages, percent change, markup, discount, and more.</p>
+        <h1 class="page-title">เปอร์เซ็นต์</h1>
+        <p class="page-description">คิด % ทุกรูปแบบ คำนวณกำไร ส่วนลด และภาษี</p>
       </div>
 
       <!-- Mode tabs -->
-      <nav class="tabs" aria-label="Calculation mode" role="tablist">
-        <button class="tab-btn active" data-mode="percent-of"   role="tab" aria-selected="true">Percent of</button>
-        <button class="tab-btn"        data-mode="what-percent"  role="tab" aria-selected="false">What %?</button>
-        <button class="tab-btn"        data-mode="percent-change" role="tab" aria-selected="false">% Change</button>
-        <button class="tab-btn"        data-mode="add-percent"   role="tab" aria-selected="false">Add %</button>
-        <button class="tab-btn"        data-mode="remove-percent" role="tab" aria-selected="false">Remove %</button>
-        <button class="tab-btn"        data-mode="markup"        role="tab" aria-selected="false">Markup</button>
+      <nav class="tabs" aria-label="โหมดการคำนวณ" role="tablist">
+        <button class="tab-btn active" data-mode="percent-of"   role="tab" aria-selected="true">หาค่า %</button>
+        <button class="tab-btn"        data-mode="what-percent"  role="tab" aria-selected="false">คิดเป็นกี่ %</button>
+        <button class="tab-btn"        data-mode="percent-change" role="tab" aria-selected="false">% เพิ่ม/ลด</button>
+        <button class="tab-btn"        data-mode="add-percent"   role="tab" aria-selected="false">บวก % (VAT)</button>
+        <button class="tab-btn"        data-mode="remove-percent" role="tab" aria-selected="false">ลด %</button>
+        <button class="tab-btn"        data-mode="markup"        role="tab" aria-selected="false">กำไร/มาร์กอัป</button>
       </nav>
 
       <!-- Panels -->
       <!-- 1: Percent of a number -->
       <div id="panel-percent-of" class="tab-panel active card">
-        <p class="text-muted text-sm mb-md">What is X% of Y?</p>
+        <p class="text-muted text-sm mb-md">หาว่า X% ของจำนวนเต็ม Y คือเท่าไร?</p>
         <div class="form-row">
-          <div class="form-group"><label class="form-label" for="po-pct">Percentage (%)</label><input id="po-pct" type="number" class="form-input" placeholder="25"></div>
-          <div class="form-group"><label class="form-label" for="po-num">Number</label><input id="po-num" type="number" class="form-input" placeholder="200"></div>
+          <div class="form-group"><label class="form-label" for="po-pct">เปอร์เซ็นต์ (%)</label><input id="po-pct" type="number" class="form-input" placeholder="เช่น 25"></div>
+          <div class="form-group"><label class="form-label" for="po-num">จำนวนเต็ม</label><input id="po-num" type="number" class="form-input" placeholder="เช่น 200"></div>
         </div>
-        <button class="btn btn-primary mt-md btn-block calc-btn" data-mode="percent-of">Calculate</button>
+        <button class="btn btn-primary mt-md btn-block calc-btn" data-mode="percent-of">คำนวณ</button>
         <div id="res-percent-of" class="result-box mt-md hidden"></div>
       </div>
 
       <!-- 2: What percent -->
       <div id="panel-what-percent" class="tab-panel card">
-        <p class="text-muted text-sm mb-md">X is what % of Y?</p>
+        <p class="text-muted text-sm mb-md">จำนวน X คิดเป็นกี่ % ของทั้งหมด Y?</p>
         <div class="form-row">
-          <div class="form-group"><label class="form-label" for="wp-part">Part (X)</label><input id="wp-part" type="number" class="form-input" placeholder="50"></div>
-          <div class="form-group"><label class="form-label" for="wp-whole">Whole (Y)</label><input id="wp-whole" type="number" class="form-input" placeholder="200"></div>
+          <div class="form-group"><label class="form-label" for="wp-part">จำนวนที่ได้ (X)</label><input id="wp-part" type="number" class="form-input" placeholder="เช่น 50"></div>
+          <div class="form-group"><label class="form-label" for="wp-whole">จำนวนเต็มทั้งหมด (Y)</label><input id="wp-whole" type="number" class="form-input" placeholder="เช่น 200"></div>
         </div>
-        <button class="btn btn-primary mt-md btn-block calc-btn" data-mode="what-percent">Calculate</button>
+        <button class="btn btn-primary mt-md btn-block calc-btn" data-mode="what-percent">คำนวณ</button>
         <div id="res-what-percent" class="result-box mt-md hidden"></div>
       </div>
 
       <!-- 3: Percent change -->
       <div id="panel-percent-change" class="tab-panel card">
-        <p class="text-muted text-sm mb-md">Percentage change from old to new value.</p>
+        <p class="text-muted text-sm mb-md">คำนวณการเติบโตหรือลดลงจากค่าเดิมไปยังค่าใหม่</p>
         <div class="form-row">
-          <div class="form-group"><label class="form-label" for="pc-old">Old value</label><input id="pc-old" type="number" class="form-input" placeholder="100"></div>
-          <div class="form-group"><label class="form-label" for="pc-new">New value</label><input id="pc-new" type="number" class="form-input" placeholder="125"></div>
+          <div class="form-group"><label class="form-label" for="pc-old">ค่าเดิม</label><input id="pc-old" type="number" class="form-input" placeholder="เช่น 100"></div>
+          <div class="form-group"><label class="form-label" for="pc-new">ค่าใหม่</label><input id="pc-new" type="number" class="form-input" placeholder="เช่น 125"></div>
         </div>
-        <button class="btn btn-primary mt-md btn-block calc-btn" data-mode="percent-change">Calculate</button>
+        <button class="btn btn-primary mt-md btn-block calc-btn" data-mode="percent-change">คำนวณ</button>
         <div id="res-percent-change" class="result-box mt-md hidden"></div>
       </div>
 
       <!-- 4: Add percent -->
       <div id="panel-add-percent" class="tab-panel card">
-        <p class="text-muted text-sm mb-md">Increase a number by a percentage (e.g. add VAT).</p>
+        <p class="text-muted text-sm mb-md">เพิ่มเปอร์เซ็นต์ (เช่น คำนวณราคาบวก VAT 7%)</p>
         <div class="form-row">
-          <div class="form-group"><label class="form-label" for="ap-num">Number</label><input id="ap-num" type="number" class="form-input" placeholder="100"></div>
-          <div class="form-group"><label class="form-label" for="ap-pct">Add (%)</label><input id="ap-pct" type="number" class="form-input" placeholder="10"></div>
+          <div class="form-group"><label class="form-label" for="ap-num">ยอดตั้งต้น</label><input id="ap-num" type="number" class="form-input" placeholder="เช่น 100"></div>
+          <div class="form-group"><label class="form-label" for="ap-pct">เปอร์เซ็นต์ที่เพิ่ม (%)</label><input id="ap-pct" type="number" class="form-input" placeholder="เช่น 7"></div>
         </div>
-        <button class="btn btn-primary mt-md btn-block calc-btn" data-mode="add-percent">Calculate</button>
+        <button class="btn btn-primary mt-md btn-block calc-btn" data-mode="add-percent">คำนวณ</button>
         <div id="res-add-percent" class="result-box mt-md hidden"></div>
       </div>
 
       <!-- 5: Remove percent -->
       <div id="panel-remove-percent" class="tab-panel card">
-        <p class="text-muted text-sm mb-md">Decrease a number by a percentage (e.g. apply discount).</p>
+        <p class="text-muted text-sm mb-md">หักเปอร์เซ็นต์ (เช่น คิดราคาหลังหักส่วนลด)</p>
         <div class="form-row">
-          <div class="form-group"><label class="form-label" for="rp-num">Number</label><input id="rp-num" type="number" class="form-input" placeholder="100"></div>
-          <div class="form-group"><label class="form-label" for="rp-pct">Remove (%)</label><input id="rp-pct" type="number" class="form-input" placeholder="20"></div>
+          <div class="form-group"><label class="form-label" for="rp-num">ยอดตั้งต้น</label><input id="rp-num" type="number" class="form-input" placeholder="เช่น 100"></div>
+          <div class="form-group"><label class="form-label" for="rp-pct">เปอร์เซ็นต์ที่ลด (%)</label><input id="rp-pct" type="number" class="form-input" placeholder="เช่น 20"></div>
         </div>
-        <button class="btn btn-primary mt-md btn-block calc-btn" data-mode="remove-percent">Calculate</button>
+        <button class="btn btn-primary mt-md btn-block calc-btn" data-mode="remove-percent">คำนวณ</button>
         <div id="res-remove-percent" class="result-box mt-md hidden"></div>
       </div>
 
       <!-- 6: Markup -->
       <div id="panel-markup" class="tab-panel card">
-        <p class="text-muted text-sm mb-md">Calculate markup and profit margin from cost and selling price.</p>
+        <p class="text-muted text-sm mb-md">คำนวณกำไร และอัตรากำไร (Margin) จากต้นทุนและราคาขาย</p>
         <div class="form-row">
-          <div class="form-group"><label class="form-label" for="mk-cost">Cost price</label><input id="mk-cost" type="number" class="form-input" placeholder="80"></div>
-          <div class="form-group"><label class="form-label" for="mk-sell">Selling price</label><input id="mk-sell" type="number" class="form-input" placeholder="100"></div>
+          <div class="form-group"><label class="form-label" for="mk-cost">ต้นทุน</label><input id="mk-cost" type="number" class="form-input" placeholder="เช่น 80"></div>
+          <div class="form-group"><label class="form-label" for="mk-sell">ราคาขาย</label><input id="mk-sell" type="number" class="form-input" placeholder="เช่น 100"></div>
         </div>
-        <button class="btn btn-primary mt-md btn-block calc-btn" data-mode="markup">Calculate</button>
+        <button class="btn btn-primary mt-md btn-block calc-btn" data-mode="markup">คำนวณ</button>
         <div id="res-markup" class="result-box mt-md hidden"></div>
       </div>
     </div>
   </main>
 
   <footer class="site-footer" role="contentinfo">
-    <div class="container"><p>Tools Hub &mdash; offline-first, no tracking, no sign-in.</p></div>
+    <div class="container"><p>Tools Hub &mdash; ทำงานออฟไลน์ได้ รวดเร็ว ปลอดภัย</p></div>
   </footer>
 
   <script src="../assets/js/common.js"></script>
@@ -123,7 +126,6 @@
       registerServiceWorker('../sw.js');
       recordToolVisit('percentage-calc');
 
-      // Tab switching
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const mode = btn.dataset.mode;
@@ -135,12 +137,10 @@
         });
       });
 
-      // Calculations
       document.querySelectorAll('.calc-btn').forEach(btn => {
         btn.addEventListener('click', () => calc(btn.dataset.mode));
       });
 
-      // Allow Enter key on inputs
       document.querySelectorAll('.form-input').forEach(input => {
         input.addEventListener('keydown', e => { if (e.key === 'Enter') input.closest('.tab-panel').querySelector('.calc-btn').click(); });
       });
@@ -158,32 +158,33 @@
             const num = safeFloat($id('po-num').value);
             const res = (pct / 100) * num;
             showResult('res-percent-of', `
-              <div class="result-label">${formatNumber(pct,2)}% of ${formatNumber(num,2)}</div>
-              <div class="result-value">${formatNumber(res,4)}</div>
+              <div class="result-label">${formatNumber(pct,2)}% ของ ${formatNumber(num,2)}</div>
+              <div class="result-value">${formatNumber(res,2)}</div>
             `);
             break;
           }
           case 'what-percent': {
             const part = safeFloat($id('wp-part').value);
             const whole = safeFloat($id('wp-whole').value);
-            if (whole === 0) { alert('Whole cannot be zero.'); return; }
+            if (whole === 0) { alert('จำนวนเต็มต้องไม่เป็น 0'); return; }
             const res = (part / whole) * 100;
             showResult('res-what-percent', `
-              <div class="result-label">${formatNumber(part,2)} is what % of ${formatNumber(whole,2)}?</div>
-              <div class="result-value">${formatNumber(res,4)}%</div>
+              <div class="result-label">${formatNumber(part,2)} คิดเป็น</div>
+              <div class="result-value">${formatNumber(res,2)}%</div>
+              <div class="result-sub">ของจำนวนเต็ม ${formatNumber(whole,2)}</div>
             `);
             break;
           }
           case 'percent-change': {
             const oldV = safeFloat($id('pc-old').value);
             const newV = safeFloat($id('pc-new').value);
-            if (oldV === 0) { alert('Old value cannot be zero.'); return; }
+            if (oldV === 0) { alert('ค่าเดิมต้องไม่เป็น 0'); return; }
             const change = ((newV - oldV) / Math.abs(oldV)) * 100;
             const isIncrease = change >= 0;
             showResult('res-percent-change', `
-              <div class="result-label">Percentage ${isIncrease ? 'increase' : 'decrease'}</div>
+              <div class="result-label">${isIncrease ? 'เพิ่มขึ้น' : 'ลดลง'}</div>
               <div class="result-value" style="color:${isIncrease?'var(--success)':'var(--danger)'}">${isIncrease?'+':''}${formatNumber(change,2)}%</div>
-              <div class="result-sub">From ${formatNumber(oldV,2)} to ${formatNumber(newV,2)}</div>
+              <div class="result-sub">จาก ${formatNumber(oldV,2)} เป็น ${formatNumber(newV,2)}</div>
             `);
             break;
           }
@@ -193,9 +194,9 @@
             const added = num * (pct / 100);
             const res = num + added;
             showResult('res-add-percent', `
-              <div class="result-label">${formatNumber(num,2)} + ${formatNumber(pct,2)}%</div>
-              <div class="result-value">${formatNumber(res,4)}</div>
-              <div class="result-sub">Added amount: ${formatNumber(added,4)}</div>
+              <div class="result-label">ยอดสุทธิหลังบวก ${formatNumber(pct,2)}%</div>
+              <div class="result-value">${formatNumber(res,2)}</div>
+              <div class="result-sub">ส่วนที่เพิ่มขึ้น: +${formatNumber(added,2)}</div>
             `);
             break;
           }
@@ -205,23 +206,23 @@
             const removed = num * (pct / 100);
             const res = num - removed;
             showResult('res-remove-percent', `
-              <div class="result-label">${formatNumber(num,2)} &minus; ${formatNumber(pct,2)}%</div>
-              <div class="result-value">${formatNumber(res,4)}</div>
-              <div class="result-sub">Amount removed: ${formatNumber(removed,4)}</div>
+              <div class="result-label">ยอดสุทธิหลังหักลด ${formatNumber(pct,2)}%</div>
+              <div class="result-value">${formatNumber(res,2)}</div>
+              <div class="result-sub">ส่วนลดที่ได้: -${formatNumber(removed,2)}</div>
             `);
             break;
           }
           case 'markup': {
             const cost = safeFloat($id('mk-cost').value);
             const sell = safeFloat($id('mk-sell').value);
-            if (cost === 0) { alert('Cost cannot be zero.'); return; }
+            if (cost === 0) { alert('ต้นทุนต้องไม่เป็น 0'); return; }
             const profit = sell - cost;
             const markup = (profit / cost) * 100;
             const margin = (profit / sell) * 100;
             showResult('res-markup', `
-              <div class="result-label">Profit</div>
-              <div class="result-value">${formatNumber(profit,2)}</div>
-              <div class="result-sub">Markup: ${formatNumber(markup,2)}% &nbsp;&bull;&nbsp; Profit margin: ${formatNumber(margin,2)}%</div>
+              <div class="result-label">กำไรต่อชิ้น</div>
+              <div class="result-value" style="color:${profit>=0?'var(--success)':'var(--danger)'}">฿${formatNumber(profit,2)}</div>
+              <div class="result-sub">Markup: ${formatNumber(markup,1)}% &nbsp;&bull;&nbsp; Margin: ${formatNumber(margin,1)}%</div>
             `);
             break;
           }

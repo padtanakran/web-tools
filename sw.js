@@ -6,7 +6,7 @@
  * HOW TO UPDATE: bump CACHE_NAME whenever you add/change files.
  */
 
-const CACHE_NAME = 'tools-hub-v1';
+const CACHE_NAME = 'tools-hub-v2';
 
 // All resources that must be available offline after first load.
 const PRECACHE_URLS = [
