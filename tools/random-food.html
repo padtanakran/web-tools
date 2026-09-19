@@ -221,14 +221,23 @@
         </button>
       </div>
 
-      <!-- Quick Category Pills (เลือกหมวดหมู่ด่วนด้านล่าง) -->
+      <!-- Quick Category Pills (เลือกประเภทอาหารและเนื้อสัตว์) -->
       <div style="margin-top:var(--space-md);">
         <div class="flex-between">
-          <span class="text-sm font-bold" style="color:var(--text-muted);">เลือกหมวดหมู่อาหารด่วน</span>
-          <span id="pool-count" class="text-xs text-muted">26 เมนู</span>
+          <span class="text-sm font-bold" style="color:var(--text-muted);">ประเภทอาหาร</span>
+          <span id="pool-count" class="text-xs text-muted">0 เมนู</span>
         </div>
-        <div id="quick-pills" class="quick-pills-wrap" role="group" aria-label="หมวดหมู่อาหาร">
+        <div id="quick-pills" class="quick-pills-wrap" role="group" aria-label="ประเภทอาหาร">
           <!-- Populated by JS -->
+        </div>
+
+        <div id="meat-filter-row" style="margin-top:2px;">
+          <div class="flex-between">
+            <span class="text-xs font-bold" style="color:var(--text-muted);">เลือกเนื้อสัตว์</span>
+          </div>
+          <div id="meat-pills" class="quick-pills-wrap" role="group" aria-label="เลือกเนื้อสัตว์">
+            <!-- Populated by JS -->
+          </div>
         </div>
       </div>
 
@@ -273,6 +282,7 @@
       let defaultFoods = [];
       let customFoods = lsGet(CUSTOM_KEY, []);
       let activeCategory = 'all';
+      let activeMeat = 'all';
       let isSpinning = false;
       let lastPicked = null;
 
@@ -282,6 +292,7 @@
       const subActionsBox = $id('sub-actions-box');
       const findMapsBtn = $id('find-maps-btn');
       const respinBtn = $id('respin-btn');
+      const meatFilterRow = $id('meat-filter-row');
 
       async function init() {
         try {
@@ -291,7 +302,8 @@
           defaultFoods = [];
         }
 
-        renderPills();
+        renderCategoryPills();
+        renderMeatPills();
         renderCustomList();
         updatePoolCount();
         bindEvents();
@@ -300,28 +312,40 @@
       function getPool() {
         let pool = [];
         if (activeCategory === 'my_custom') {
-          return customFoods.map(f => ({ name: f.name, category: f.category || 'เมนูฉัน' }));
+          return customFoods.map(f => ({ name: f.name, category: f.category || 'เมนูฉัน', meat: 'ทั่วไป' }));
         }
 
-        pool = defaultFoods.concat(customFoods.map(f => ({ name: f.name, category: f.category || 'เมนูฉัน' })));
+        pool = defaultFoods.concat(customFoods.map(f => ({ name: f.name, category: f.category || 'เมนูฉัน', meat: 'ทั่วไป' })));
 
         if (activeCategory !== 'all') {
           pool = pool.filter(f => f.category === activeCategory);
         }
+
+        if (activeMeat !== 'all' && activeCategory !== 'ขนมหวาน') {
+          pool = pool.filter(f => f.meat === activeMeat);
+        }
+
         return pool;
       }
 
       function updatePoolCount() {
-        const count = getPool().length;
-        $id('pool-count').textContent = `${count} เมนู`;
+        const pool = getPool();
+        $id('pool-count').textContent = `${pool.length} เมนู`;
+        updateBadge();
       }
 
-      function renderPills() {
+      function updateBadge() {
+        if (isSpinning) return;
+        let catText = activeCategory === 'all' ? 'ทุกประเภท' : (activeCategory === 'my_custom' ? 'เมนูของฉัน' : activeCategory);
+        let meatText = (activeMeat === 'all' || activeCategory === 'ขนมหวาน') ? '' : ` (${activeMeat})`;
+        slotCatEl.textContent = catText + meatText;
+      }
+
+      function renderCategoryPills() {
         const container = $id('quick-pills');
         container.innerHTML = '';
 
-        // All categories
-        const cats = ['all', ...new Set(defaultFoods.map(f => f.category))];
+        const cats = ['all', 'อาหารจานเดียว', 'ก๋วยเตี๋ยว', 'ต้ม / ซุป', 'ผัด / ทอด', 'ยำ / ส้มตำ', 'ขนมหวาน'];
 
         cats.forEach(cat => {
           const btn = document.createElement('button');
@@ -331,15 +355,24 @@
           btn.addEventListener('click', () => {
             if (isSpinning) return;
             activeCategory = cat;
-            document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
+            container.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
             btn.classList.add('active');
-            slotCatEl.textContent = cat === 'all' ? 'ทุกหมวดหมู่' : cat;
+
+            if (cat === 'ขนมหวาน') {
+              meatFilterRow.classList.add('hidden');
+              activeMeat = 'all';
+              $id('meat-pills').querySelectorAll('.quick-pill').forEach((p, idx) => {
+                p.classList.toggle('active', idx === 0);
+              });
+            } else {
+              meatFilterRow.classList.remove('hidden');
+            }
+
             updatePoolCount();
           });
           container.appendChild(btn);
         });
 
-        // Add "My Menu" pill if custom foods exist
         if (customFoods.length > 0) {
           const customPill = document.createElement('button');
           customPill.type = 'button';
@@ -348,13 +381,42 @@
           customPill.addEventListener('click', () => {
             if (isSpinning) return;
             activeCategory = 'my_custom';
-            document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
+            meatFilterRow.classList.add('hidden');
+            activeMeat = 'all';
+            container.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
             customPill.classList.add('active');
-            slotCatEl.textContent = 'เมนูโปรดของฉัน';
             updatePoolCount();
           });
           container.appendChild(customPill);
         }
+      }
+
+      function renderMeatPills() {
+        const container = $id('meat-pills');
+        container.innerHTML = '';
+
+        const meats = [
+          { id: 'all', label: 'ทั้งหมด' },
+          { id: 'หมู', label: 'หมู' },
+          { id: 'ไก่', label: 'ไก่' },
+          { id: 'ทะเล', label: 'ทะเล' },
+          { id: 'เนื้อ', label: 'เนื้อ' }
+        ];
+
+        meats.forEach(m => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'quick-pill' + (activeMeat === m.id ? ' active' : '');
+          btn.textContent = m.label;
+          btn.addEventListener('click', () => {
+            if (isSpinning) return;
+            activeMeat = m.id;
+            container.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            updatePoolCount();
+          });
+          container.appendChild(btn);
+        });
       }
 
       // Slot Machine Spin Logic with deceleration
@@ -385,7 +447,6 @@
 
         function runStep() {
           if (currentStep < steps.length) {
-            // Pick a random display food for the spinning reel
             const temp = pool[Math.floor(Math.random() * pool.length)];
             slotNameEl.textContent = temp.name;
             slotCatEl.textContent = temp.category || '';
@@ -395,7 +456,8 @@
           } else {
             // Finished! Show winner
             slotNameEl.textContent = finalWinner.name;
-            slotCatEl.textContent = finalWinner.category || '';
+            const metaInfo = finalWinner.category + (finalWinner.meat && finalWinner.meat !== 'ทั่วไป' ? ` • ${finalWinner.meat}` : '');
+            slotCatEl.textContent = metaInfo;
             slotNameEl.classList.remove('spinning');
             slotNameEl.classList.add('pop-win');
 
@@ -424,12 +486,12 @@
         const name = $id('custom-name').value.trim();
         if (!name) return;
         const cat = $id('custom-cat').value.trim() || 'เมนูฉัน';
-        customFoods.push({ name, category: cat });
+        customFoods.push({ name, category: cat, meat: 'ทั่วไป' });
         lsSet(CUSTOM_KEY, customFoods);
         $id('custom-name').value = '';
         $id('custom-cat').value = '';
         renderCustomList();
-        renderPills();
+        renderCategoryPills();
         updatePoolCount();
       }
 
@@ -437,7 +499,7 @@
         customFoods.splice(i, 1);
         lsSet(CUSTOM_KEY, customFoods);
         renderCustomList();
-        renderPills();
+        renderCategoryPills();
         updatePoolCount();
       }
 
