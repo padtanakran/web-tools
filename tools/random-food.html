@@ -4,26 +4,175 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>สุ่มของกิน — Tools Hub</title>
-  <meta name="description" content="คิดไม่ออกว่าจะกินอะไรดี ให้ระบบสุ่มเมนูอาหารให้คุณทันที">
+  <meta name="description" content="สุ่มเมนูอาหารสไตล์ตู้สุ่ม Slot Machine เลือกหมวดหมู่ด่วน พร้อมค้นหาร้านใกล้ฉัน">
   <meta name="theme-color" content="#f8fafc">
   <link rel="manifest" href="../manifest.json">
   <link rel="icon" type="image/jpeg" href="../assets/icons/icon-192.jpg">
   <link rel="stylesheet" href="../assets/css/style.css">
   <style>
-    .food-result {
-      font-size: var(--text-3xl);
-      font-weight: 800;
-      color: var(--text);
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      padding: var(--space-xl) var(--space-md);
+    /* Slot Machine Display Window (Fixed Height - ไม่มีขยับ) */
+    .slot-machine-box {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      height: 190px;
+      max-height: 190px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-md);
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.03), var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
       text-align: center;
+      margin-bottom: var(--space-md);
+      user-select: none;
     }
-    .food-category-badge {
-      font-size: var(--text-sm);
+
+    .slot-machine-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #f59e0b, #ec4899, #3b82f6);
+    }
+
+    .slot-reel {
+      height: 84px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .slot-food-name {
+      font-size: clamp(1.4rem, 5.5vw, 1.9rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      transition: transform 0.08s ease, opacity 0.08s ease;
+      word-break: break-word;
+    }
+
+    .slot-food-name.spinning {
       color: var(--primary);
-      font-weight: 500;
+      transform: scale(0.96);
+      opacity: 0.85;
+    }
+
+    .slot-food-name.pop-win {
+      animation: popWin 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popWin {
+      0% { transform: scale(0.85); opacity: 0.5; }
+      60% { transform: scale(1.08); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .slot-badge-slot {
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .slot-cat-badge {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      padding: 3px 14px;
+      border-radius: 20px;
+      background: var(--primary-dim);
+      color: var(--primary);
+      letter-spacing: 0.02em;
+    }
+
+    /* Category Quick Pills */
+    .quick-pills-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
       margin-top: var(--space-xs);
+      margin-bottom: var(--space-md);
+    }
+
+    .quick-pill {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: var(--text-xs);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .quick-pill:hover {
+      color: var(--text);
+      border-color: var(--text-muted);
+    }
+
+    .quick-pill.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+    }
+
+    /* Action Buttons */
+    .spin-btn {
+      min-height: 52px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    .spin-btn:active:not(:disabled) {
+      transform: scale(0.97);
+    }
+
+    .sub-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm);
+      margin-top: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+
+    /* Collapsible Custom Foods */
+    details.custom-accordion {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-sm) var(--space-md);
+      transition: all 0.2s;
+    }
+
+    details.custom-accordion summary {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+      padding: 6px 0;
+    }
+
+    details.custom-accordion summary::-webkit-details-marker { display: none; }
+
+    details.custom-accordion summary:hover {
+      color: var(--text);
     }
   </style>
 </head>
@@ -47,70 +196,73 @@
   </header>
 
   <main id="main-content" class="page-main">
-    <div class="container" style="max-width:640px;">
-      <div class="page-header">
+    <div class="container" style="max-width:620px;">
+      <div class="page-header" style="text-align:center;margin-bottom:var(--space-md);">
         <h1 class="page-title">สุ่มของกิน</h1>
-        <p class="page-description">มื้อนี้กินอะไรดี? กดสุ่มเมนูทันใจไม่ต้องเสียเวลาคิด</p>
+        <p class="page-description" style="margin-inline:auto;">กดปุ่มเดียวรู้ผลทันใจ พร้อมค้นหาร้านรอบตัวได้เลย</p>
       </div>
 
-      <!-- Filter -->
-      <div class="card mb-md">
-        <div class="form-row" style="align-items:flex-end;flex-wrap:wrap;">
-          <div class="form-group" style="flex:1;min-width:160px;">
-            <label class="form-label" for="category-filter">หมวดหมู่เมนู</label>
-            <select id="category-filter" class="form-select">
-              <option value="all">ทุกหมวดหมู่</option>
-            </select>
-          </div>
-          <div class="form-group" style="flex:0 0 auto;">
-            <label class="form-label">แหล่งข้อมูล</label>
-            <div class="flex gap-sm" style="height:44px;align-items:center;">
-              <label class="flex gap-xs" style="align-items:center;cursor:pointer;">
-                <input type="radio" name="source" id="source-default" value="default" checked> เมนูกลาง
-              </label>
-              <label class="flex gap-xs" style="align-items:center;cursor:pointer;">
-                <input type="radio" name="source" id="source-custom" value="custom"> เมนูฉัน
-              </label>
-              <label class="flex gap-xs" style="align-items:center;cursor:pointer;">
-                <input type="radio" name="source" id="source-both" value="both"> รวมกัน
-              </label>
+      <!-- Slot Machine Screen (Fixed 190px - นิ่งสนิท ไม่ดันปุ่ม) -->
+      <div class="slot-machine-box" role="region" aria-label="จอแสดงผลสุ่มอาหาร">
+        <div class="slot-reel">
+          <div id="slot-name" class="slot-food-name" aria-live="polite">กดปุ่มสุ่มเลย!</div>
+        </div>
+        <div class="slot-badge-slot">
+          <span id="slot-cat" class="slot-cat-badge">ทุกหมวดหมู่</span>
+        </div>
+      </div>
+
+      <!-- Main Spin Button -->
+      <button id="spin-btn" class="btn btn-primary btn-block spin-btn" aria-label="กดสุ่มเมนูอาหาร">
+        🎰 สุ่มเมนูอาหาร!
+      </button>
+
+      <!-- Sub Actions (ค้นหาร้าน / สุ่มใหม่) -->
+      <div id="sub-actions-box" class="sub-actions hidden">
+        <a id="find-maps-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size:var(--text-sm);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          หาร้านใกล้ฉัน
+        </a>
+        <button id="respin-btn" class="btn btn-secondary" style="font-size:var(--text-sm);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          สุ่มใหม่อีกที
+        </button>
+      </div>
+
+      <!-- Quick Category Pills (เลือกหมวดหมู่ด่วนด้านล่าง) -->
+      <div style="margin-top:var(--space-md);">
+        <div class="flex-between">
+          <span class="text-sm font-bold" style="color:var(--text-muted);">เลือกหมวดหมู่อาหารด่วน</span>
+          <span id="pool-count" class="text-xs text-muted">26 เมนู</span>
+        </div>
+        <div id="quick-pills" class="quick-pills-wrap" role="group" aria-label="หมวดหมู่อาหาร">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Collapsible My Custom Foods (พับไว้ด้านล่างเพื่อความสะอาดตา) -->
+      <details class="custom-accordion mt-md">
+        <summary>
+          <span>➕ เพิ่มเมนูโปรดของฉันเอง</span>
+          <span class="text-xs text-muted" id="custom-count-tag">0 รายการ</span>
+        </summary>
+        <div style="padding-top:var(--space-sm);">
+          <div class="form-row mb-sm" style="flex-wrap:wrap;">
+            <div class="form-group" style="flex:2;min-width:140px;">
+              <input id="custom-name" type="text" class="form-input" placeholder="ชื่อเมนู เช่น ก๋วยเตี๋ยวป้าเพ็ญ">
+            </div>
+            <div class="form-group" style="flex:1;min-width:100px;">
+              <input id="custom-cat" type="text" class="form-input" placeholder="หมวดหมู่">
+            </div>
+            <div style="align-self:flex-end;">
+              <button id="add-custom-btn" class="btn btn-secondary">เพิ่ม</button>
             </div>
           </div>
+          <div id="custom-list" class="flex flex-wrap gap-xs"></div>
+          <p id="custom-empty" class="text-muted text-xs mt-xs">ยังไม่มีเมนูที่บันทึกไว้</p>
         </div>
-      </div>
+      </details>
 
-      <!-- Result display -->
-      <div class="card mb-md" style="min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-        <div id="food-result" class="food-result" aria-live="polite" aria-atomic="true">
-          <span class="text-muted" style="font-size:var(--text-lg);font-weight:400;">กดปุ่มด้านล่างเพื่อเริ่มสุ่ม</span>
-        </div>
-        <div id="food-cat" class="food-category-badge"></div>
-      </div>
-
-      <button id="pick-btn" class="btn btn-primary btn-lg btn-block mb-lg">สุ่มเมนูอาหาร</button>
-
-      <hr class="divider">
-
-      <!-- Custom list management -->
-      <div class="card">
-        <h2 class="section-title">เมนูโปรดของฉัน</h2>
-        <div class="form-row mb-md" style="flex-wrap:wrap;">
-          <div class="form-group" style="flex:2;min-width:140px;">
-            <label class="form-label" for="custom-name">ชื่อเมนู</label>
-            <input id="custom-name" type="text" class="form-input" placeholder="เช่น ก๋วยเตี๋ยวหน้าปากซอย">
-          </div>
-          <div class="form-group" style="flex:1;min-width:100px;">
-            <label class="form-label" for="custom-cat">หมวดหมู่</label>
-            <input id="custom-cat" type="text" class="form-input" placeholder="เช่น ร้านโปรด">
-          </div>
-          <div style="align-self:flex-end;">
-            <button id="add-custom-btn" class="btn btn-secondary">เพิ่ม</button>
-          </div>
-        </div>
-
-        <div id="custom-list" class="flex flex-wrap gap-sm"></div>
-        <p id="custom-empty" class="text-muted text-sm mt-sm">ยังไม่มีเมนูของตัวเอง เพิ่มได้ที่ช่องด้านบน</p>
-      </div>
     </div>
   </main>
 
@@ -128,6 +280,16 @@
       const CUSTOM_KEY = 'tools-hub:custom-foods';
       let defaultFoods = [];
       let customFoods = lsGet(CUSTOM_KEY, []);
+      let activeCategory = 'all';
+      let isSpinning = false;
+      let lastPicked = null;
+
+      const slotNameEl = $id('slot-name');
+      const slotCatEl = $id('slot-cat');
+      const spinBtn = $id('spin-btn');
+      const subActionsBox = $id('sub-actions-box');
+      const findMapsBtn = $id('find-maps-btn');
+      const respinBtn = $id('respin-btn');
 
       async function init() {
         try {
@@ -136,55 +298,135 @@
         } catch {
           defaultFoods = [];
         }
-        buildCategoryFilter();
-        renderCustomList();
-      }
 
-      function buildCategoryFilter() {
-        const sel = $id('category-filter');
-        const cats = [...new Set(defaultFoods.map(f => f.category))].sort();
-        cats.forEach(cat => {
-          const opt = document.createElement('option');
-          opt.value = cat;
-          opt.textContent = cat;
-          sel.appendChild(opt);
-        });
+        renderPills();
+        renderCustomList();
+        updatePoolCount();
+        bindEvents();
       }
 
       function getPool() {
-        const source = document.querySelector('input[name="source"]:checked').value;
-        const cat = $id('category-filter').value;
-
         let pool = [];
-        if (source === 'default' || source === 'both') {
-          let d = defaultFoods;
-          if (cat !== 'all') d = d.filter(f => f.category === cat);
-          pool = pool.concat(d);
+        if (activeCategory === 'my_custom') {
+          return customFoods.map(f => ({ name: f.name, category: f.category || 'เมนูฉัน' }));
         }
-        if (source === 'custom' || source === 'both') {
-          pool = pool.concat(customFoods.map(f => ({ name: f.name, category: f.category || 'เมนูฉัน' })));
+
+        pool = defaultFoods.concat(customFoods.map(f => ({ name: f.name, category: f.category || 'เมนูฉัน' })));
+
+        if (activeCategory !== 'all') {
+          pool = pool.filter(f => f.category === activeCategory);
         }
         return pool;
       }
 
-      $id('pick-btn').addEventListener('click', () => {
+      function updatePoolCount() {
+        const count = getPool().length;
+        $id('pool-count').textContent = `${count} เมนู`;
+      }
+
+      function renderPills() {
+        const container = $id('quick-pills');
+        container.innerHTML = '';
+
+        // All categories
+        const cats = ['all', ...new Set(defaultFoods.map(f => f.category))];
+
+        cats.forEach(cat => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'quick-pill' + (activeCategory === cat ? ' active' : '');
+          btn.textContent = cat === 'all' ? 'ทั้งหมด' : cat;
+          btn.addEventListener('click', () => {
+            if (isSpinning) return;
+            activeCategory = cat;
+            document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            slotCatEl.textContent = cat === 'all' ? 'ทุกหมวดหมู่' : cat;
+            updatePoolCount();
+          });
+          container.appendChild(btn);
+        });
+
+        // Add "My Menu" pill if custom foods exist
+        if (customFoods.length > 0) {
+          const customPill = document.createElement('button');
+          customPill.type = 'button';
+          customPill.className = 'quick-pill' + (activeCategory === 'my_custom' ? ' active' : '');
+          customPill.textContent = '⭐ เมนูของฉัน';
+          customPill.addEventListener('click', () => {
+            if (isSpinning) return;
+            activeCategory = 'my_custom';
+            document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
+            customPill.classList.add('active');
+            slotCatEl.textContent = 'เมนูโปรดของฉัน';
+            updatePoolCount();
+          });
+          container.appendChild(customPill);
+        }
+      }
+
+      // Slot Machine Spin Logic with deceleration
+      function startSpin() {
         const pool = getPool();
         if (pool.length === 0) {
-          $id('food-result').innerHTML = '<span style="font-size:var(--text-lg);font-weight:400;color:var(--text-muted);">ไม่มีเมนูในหมวดนี้</span>';
-          $id('food-cat').textContent = '';
+          slotNameEl.textContent = 'ไม่มีเมนูในหมวดนี้';
+          slotCatEl.textContent = 'กรุณาเลือกหมวดอื่น';
           return;
         }
-        const chosen = pool[Math.floor(Math.random() * pool.length)];
-        const resultEl = $id('food-result');
-        resultEl.className = 'food-result';
-        void resultEl.offsetWidth;
-        resultEl.classList.add('spin-in');
-        resultEl.textContent = chosen.name;
-        $id('food-cat').textContent = chosen.category || '';
-      });
 
-      $id('add-custom-btn').addEventListener('click', addCustomFood);
-      $id('custom-name').addEventListener('keydown', e => { if (e.key === 'Enter') addCustomFood(); });
+        if (isSpinning) return;
+        isSpinning = true;
+        spinBtn.disabled = true;
+        spinBtn.innerHTML = '🎰 กำลังสุ่ม...';
+        subActionsBox.classList.add('hidden');
+
+        slotNameEl.classList.remove('pop-win');
+        slotNameEl.classList.add('spinning');
+
+        // Choose final winner beforehand
+        const finalWinner = pool[Math.floor(Math.random() * pool.length)];
+        lastPicked = finalWinner;
+
+        // Frame deceleration intervals (ms)
+        const steps = [50, 50, 50, 50, 60, 60, 70, 80, 100, 130, 170, 220, 290, 380];
+        let currentStep = 0;
+
+        function runStep() {
+          if (currentStep < steps.length) {
+            // Pick a random display food for the spinning reel
+            const temp = pool[Math.floor(Math.random() * pool.length)];
+            slotNameEl.textContent = temp.name;
+            slotCatEl.textContent = temp.category || '';
+
+            setTimeout(runStep, steps[currentStep]);
+            currentStep++;
+          } else {
+            // Finished! Show winner
+            slotNameEl.textContent = finalWinner.name;
+            slotCatEl.textContent = finalWinner.category || '';
+            slotNameEl.classList.remove('spinning');
+            slotNameEl.classList.add('pop-win');
+
+            // Setup Google Maps link
+            const mapsQuery = encodeURIComponent(`${finalWinner.name} ใกล้ฉัน`);
+            findMapsBtn.href = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+
+            subActionsBox.classList.remove('hidden');
+            spinBtn.disabled = false;
+            spinBtn.innerHTML = '🎰 สุ่มเมนูอาหาร!';
+            isSpinning = false;
+          }
+        }
+
+        runStep();
+      }
+
+      function bindEvents() {
+        spinBtn.addEventListener('click', startSpin);
+        respinBtn.addEventListener('click', startSpin);
+        $id('add-custom-btn').addEventListener('click', addCustomFood);
+        $id('custom-name').addEventListener('keydown', e => { if (e.key === 'Enter') addCustomFood(); });
+      }
 
       function addCustomFood() {
         const name = $id('custom-name').value.trim();
@@ -195,17 +437,23 @@
         $id('custom-name').value = '';
         $id('custom-cat').value = '';
         renderCustomList();
+        renderPills();
+        updatePoolCount();
       }
 
       function removeCustomFood(i) {
         customFoods.splice(i, 1);
         lsSet(CUSTOM_KEY, customFoods);
         renderCustomList();
+        renderPills();
+        updatePoolCount();
       }
 
       function renderCustomList() {
         const container = $id('custom-list');
         const empty = $id('custom-empty');
+        const countTag = $id('custom-count-tag');
+        countTag.textContent = `${customFoods.length} รายการ`;
         container.innerHTML = '';
 
         if (customFoods.length === 0) {
@@ -217,8 +465,8 @@
         customFoods.forEach((f, i) => {
           const tag = document.createElement('div');
           tag.className = 'tag';
-          tag.innerHTML = `${esc(f.name)} <span class="text-xs text-muted">${esc(f.category)}</span>
-            <button class="tag-remove" data-i="${i}" aria-label="ลบ ${esc(f.name)}">
+          tag.innerHTML = `${escapeHtml(f.name)} <span class="text-xs text-muted">(${escapeHtml(f.category)})</span>
+            <button type="button" class="tag-remove" data-i="${i}" aria-label="ลบ ${escapeHtml(f.name)}">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>`;
           container.appendChild(tag);
@@ -229,7 +477,9 @@
         });
       }
 
-      function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+      function escapeHtml(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
 
       init();
     })();
