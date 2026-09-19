@@ -4,11 +4,173 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>เทียบราคา — Tools Hub</title>
-  <meta name="description" content="เปรียบเทียบราคาสินค้าต่อหน่วย หาตัวเลือกที่คุ้มและประหยัดที่สุด">
+  <meta name="description" content="เปรียบเทียบราคาสินค้าต่อหน่วย คำนวณเรียลไทม์ หาตัวเลือกที่คุ้มและประหยัดที่สุด">
   <meta name="theme-color" content="#f8fafc">
   <link rel="manifest" href="../manifest.json">
   <link rel="icon" type="image/jpeg" href="../assets/icons/icon-192.jpg">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .compare-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .summary-card {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: var(--space-md) var(--space-lg);
+      margin-bottom: var(--space-lg);
+      transition: border-color .2s, background-color .2s;
+    }
+
+    .summary-card.has-winner {
+      border: 2px solid var(--success);
+      background: rgba(16, 185, 129, 0.04);
+    }
+
+    .summary-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xs);
+    }
+
+    .summary-title {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .summary-detail {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .compare-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      position: relative;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .compare-card.is-winner {
+      border: 2px solid var(--success);
+      box-shadow: 0 0 0 1px var(--success), var(--shadow);
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    .card-name-input {
+      font-weight: 600;
+      font-size: var(--text-base);
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text);
+      padding: 4px 8px;
+      width: 100%;
+      transition: border-color .2s, background-color .2s;
+    }
+
+    .card-name-input:focus {
+      border-color: var(--border-focus);
+      background: var(--surface-alt);
+      outline: none;
+    }
+
+    .btn-icon-delete {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-faint);
+      border-radius: var(--radius-sm);
+      padding: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color .2s, border-color .2s;
+      flex-shrink: 0;
+    }
+
+    .btn-icon-delete:hover {
+      color: var(--danger);
+      border-color: var(--danger);
+      background: rgba(239, 68, 68, 0.06);
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm);
+    }
+
+    .unit-price-box {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface-alt);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-top: auto;
+    }
+
+    .compare-card.is-winner .unit-price-box {
+      border-color: var(--success);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    .unit-price-label {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .unit-price-number {
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .compare-card.is-winner .unit-price-number {
+      color: var(--success);
+    }
+
+    .unit-price-tag {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+  </style>
 </head>
 <body>
   <a href="#main-content" class="skip-link">ข้ามไปเนื้อหาหลัก</a>
@@ -33,62 +195,37 @@
     <div class="container">
       <div class="page-header">
         <h1 class="page-title">เทียบราคา</h1>
-        <p class="page-description">คำนวณราคาต่อหน่วย หาว่าชิ้นไหนคุ้มและประหยัดที่สุด</p>
+        <p class="page-description">ใส่ราคาและปริมาณ ระบบคำนวณและชี้ตัวเลือกที่คุ้มที่สุดทันทีแบบเรียลไทม์</p>
       </div>
 
-      <!-- Unit selector -->
-      <div class="card mb-md">
-        <div class="form-row" style="align-items:center;flex-wrap:wrap;">
-          <div class="form-group" style="flex:1;min-width:140px;">
-            <label class="form-label" for="unit-type">หน่วยเปรียบเทียบ</label>
-            <select id="unit-type" class="form-select">
-              <option value="ชิ้น">ชิ้น / อัน</option>
-              <option value="กรัม (g)">กรัม (g)</option>
-              <option value="กก. (kg)">กิโลกรัม (kg)</option>
-              <option value="มล. (ml)">มิลลิลิตร (ml)</option>
-              <option value="ลิตร (L)">ลิตร (L)</option>
-              <option value="แพ็ค">แพ็ค</option>
-            </select>
-          </div>
-          <div class="form-group" style="flex:0 0 auto;width:90px;">
-            <label class="form-label" for="currency-symbol">สกุลเงิน</label>
-            <input id="currency-symbol" type="text" class="form-input" value="฿" maxlength="4">
-          </div>
-          <div style="flex:1;"></div>
-          <div style="align-self:flex-end;">
-            <button id="add-item-btn" class="btn btn-secondary">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              เพิ่มสินค้า
-            </button>
-          </div>
+      <!-- Toolbar -->
+      <div class="compare-toolbar">
+        <div class="text-sm font-semibold text-muted">
+          เทียบ <span id="item-count-badge">2</span> รายการ
+        </div>
+        <div class="toolbar-actions">
+          <button id="add-item-btn" class="btn btn-primary btn-sm" type="button" aria-label="เพิ่มสินค้าเปรียบเทียบ">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            เพิ่มสินค้า
+          </button>
+          <button id="clear-all-btn" class="btn btn-secondary btn-sm" type="button" aria-label="ล้างข้อมูลทั้งหมด">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            ล้างข้อมูล
+          </button>
         </div>
       </div>
 
-      <!-- Items -->
-      <div id="items-container" class="tool-section mb-lg"></div>
-
-      <!-- Compare button -->
-      <button id="compare-btn" class="btn btn-primary btn-lg btn-block mb-lg">เปรียบเทียบราคา</button>
-
-      <!-- Results -->
-      <div id="results-section" class="hidden">
-        <h2 class="section-title">ผลการเปรียบเทียบ</h2>
-        <div id="results-table-wrap" class="card card-sm table-wrap">
-          <table class="data-table" id="results-table">
-            <thead>
-              <tr>
-                <th>สินค้า</th>
-                <th>ราคา</th>
-                <th>ปริมาณ</th>
-                <th>ราคาต่อหน่วย</th>
-                <th>ผลลัพธ์</th>
-              </tr>
-            </thead>
-            <tbody id="results-body"></tbody>
-          </table>
+      <!-- Live Winner / Status Banner -->
+      <div id="summary-card" class="summary-card" role="region" aria-live="polite">
+        <div class="summary-header">
+          <span id="summary-badge" class="badge badge-primary">รอข้อมูล</span>
+          <span id="summary-title" class="summary-title">กรอกราคาและปริมาณเพื่อเริ่มเปรียบเทียบ</span>
         </div>
-        <div id="winner-box" class="result-box mt-md"></div>
+        <div id="summary-detail" class="summary-detail">กรอกราคาและปริมาณอย่างน้อย 2 รายการ ระบบจะคำนวณและแสดงผลทันที</div>
       </div>
+
+      <!-- Comparison Items Grid -->
+      <div id="items-grid" class="compare-grid"></div>
     </div>
   </main>
 
@@ -105,113 +242,216 @@
       registerServiceWorker('../sw.js');
       recordToolVisit('price-comparison');
 
-      let itemCount = 0;
+      const grid = $id('items-grid');
+      const countBadge = $id('item-count-badge');
+      const summaryCard = $id('summary-card');
+      const summaryBadge = $id('summary-badge');
+      const summaryTitle = $id('summary-title');
+      const summaryDetail = $id('summary-detail');
+      const addItemBtn = $id('add-item-btn');
+      const clearAllBtn = $id('clear-all-btn');
 
-      function getCurrency() { return $id('currency-symbol').value || '฿'; }
-      function getUnitLabel() { return $id('unit-type').value; }
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      let nextIndex = 0;
 
-      function addItem(name = '', price = '', qty = '') {
-        itemCount++;
-        const id = itemCount;
-        const container = $id('items-container');
-        const row = document.createElement('div');
-        row.className = 'card card-sm mb-md';
-        row.id = `item-row-${id}`;
-        row.innerHTML = `
-          <div class="flex-between mb-sm">
-            <span class="text-sm font-bold" style="color:var(--text-muted);">รายการที่ ${id}</span>
-            ${id > 2 ? `<button class="btn btn-danger btn-sm" onclick="removeItem(${id})" aria-label="ลบรายการ ${id}">ลบออก</button>` : ''}
+      function createCard(defaultName = '') {
+        const char = alphabet[nextIndex % alphabet.length];
+        const suffix = nextIndex >= alphabet.length ? ` ${Math.floor(nextIndex / alphabet.length) + 1}` : '';
+        const name = defaultName || `สินค้า ${char}${suffix}`;
+        const cardId = `item-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+        nextIndex++;
+
+        const card = document.createElement('div');
+        card.className = 'compare-card';
+        card.id = cardId;
+        card.innerHTML = `
+          <div class="card-head">
+            <input type="text" class="card-name-input item-name" value="${escHtml(name)}" placeholder="ชื่อสินค้า" aria-label="ชื่อสินค้า">
+            <button type="button" class="btn-icon-delete" title="ลบรายการนี้" aria-label="ลบรายการนี้">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            </button>
           </div>
-          <div class="form-row">
-            <div class="form-group" style="flex:2;min-width:120px;">
-              <label class="form-label" for="item-name-${id}">ชื่อสินค้า (ไม่บังคับ)</label>
-              <input id="item-name-${id}" type="text" class="form-input" placeholder="เช่น ยี่ห้อ A หรือ ไซส์เล็ก" value="${escHtml(name)}">
+          <div class="input-grid">
+            <div class="form-group">
+              <label class="form-label" for="${cardId}-price">ราคา</label>
+              <input id="${cardId}-price" type="number" inputmode="decimal" class="form-input item-price" placeholder="0.00" min="0" step="any">
             </div>
-            <div class="form-group" style="flex:1;min-width:90px;">
-              <label class="form-label" for="item-price-${id}">ราคา</label>
-              <input id="item-price-${id}" type="number" class="form-input" placeholder="0.00" min="0" step="0.01" value="${escHtml(price)}">
+            <div class="form-group">
+              <label class="form-label" for="${cardId}-qty">ปริมาณ</label>
+              <input id="${cardId}-qty" type="number" inputmode="decimal" class="form-input item-qty" placeholder="1" min="0" step="any">
             </div>
-            <div class="form-group" style="flex:1;min-width:90px;">
-              <label class="form-label" for="item-qty-${id}">ปริมาณ (<span class="unit-label">${getUnitLabel()}</span>)</label>
-              <input id="item-qty-${id}" type="number" class="form-input" placeholder="1" min="0.001" step="any" value="${escHtml(qty)}">
-            </div>
+          </div>
+          <div class="unit-price-box">
+            <span class="unit-price-label">ราคาต่อหน่วย</span>
+            <span class="unit-price-number item-ppu">-</span>
+            <span class="unit-price-tag item-tag text-muted text-xs">รอระบุตัวเลข</span>
           </div>
         `;
-        container.appendChild(row);
+
+        card.querySelector('.btn-icon-delete').addEventListener('click', () => {
+          removeCard(card);
+        });
+
+        grid.appendChild(card);
+        updateCardsState();
+        return card;
       }
 
-      window.removeItem = function (id) {
-        const row = $id(`item-row-${id}`);
-        if (row) row.remove();
-      };
+      function removeCard(card) {
+        if (grid.querySelectorAll('.compare-card').length <= 2) return;
+        card.remove();
+        updateCardsState();
+        recalculate();
+      }
 
-      function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-      function getItems() {
-        const rows = document.querySelectorAll('[id^="item-row-"]');
-        return Array.from(rows).map(row => {
-          const id = row.id.replace('item-row-', '');
-          return {
-            id,
-            name: ($id(`item-name-${id}`) || {}).value || `รายการที่ ${id}`,
-            price: safeFloat(($id(`item-price-${id}`) || {}).value),
-            qty: safeFloat(($id(`item-qty-${id}`) || {}).value, 1),
-          };
+      function updateCardsState() {
+        const cards = grid.querySelectorAll('.compare-card');
+        countBadge.textContent = cards.length;
+        const canDelete = cards.length > 2;
+        cards.forEach(card => {
+          const delBtn = card.querySelector('.btn-icon-delete');
+          if (delBtn) {
+            delBtn.style.visibility = canDelete ? 'visible' : 'hidden';
+          }
         });
       }
 
-      function compare() {
-        const items = getItems();
-        const valid = items.filter(i => i.price > 0 && i.qty > 0);
-        if (valid.length < 2) {
-          alert('กรุณากรอกราคาและปริมาณอย่างน้อย 2 รายการ');
+      function recalculate() {
+        const cards = Array.from(grid.querySelectorAll('.compare-card'));
+        const items = cards.map(card => {
+          const nameInput = card.querySelector('.item-name');
+          const priceInput = card.querySelector('.item-price');
+          const qtyInput = card.querySelector('.item-qty');
+          const ppuEl = card.querySelector('.item-ppu');
+          const tagEl = card.querySelector('.item-tag');
+
+          const name = (nameInput.value || '').trim() || 'สินค้ารายการนี้';
+          const price = safeFloat(priceInput.value, 0);
+          const qty = safeFloat(qtyInput.value, 0);
+
+          let ppu = null;
+          if (price > 0 && qty > 0) {
+            ppu = price / qty;
+          }
+
+          return {
+            card,
+            name,
+            price,
+            qty,
+            ppu,
+            ppuEl,
+            tagEl
+          };
+        });
+
+        const validItems = items.filter(item => item.ppu !== null);
+
+        // Update single-item displays first
+        items.forEach(item => {
+          if (item.ppu !== null) {
+            item.ppuEl.textContent = formatPpu(item.ppu);
+          } else {
+            item.ppuEl.textContent = '-';
+            item.tagEl.className = 'unit-price-tag text-muted text-xs';
+            item.tagEl.textContent = 'รอระบุตัวเลข';
+            item.card.classList.remove('is-winner');
+          }
+        });
+
+        if (validItems.length < 2) {
+          summaryCard.className = 'summary-card';
+          summaryBadge.className = 'badge badge-primary';
+          summaryBadge.textContent = 'รอข้อมูล';
+          summaryTitle.textContent = 'กรอกราคาและปริมาณเพื่อเริ่มเปรียบเทียบ';
+          summaryDetail.textContent = 'กรอกราคาและปริมาณอย่างน้อย 2 รายการ ระบบจะคำนวณและชี้ตัวเลือกที่คุ้มที่สุดทันที';
+          items.forEach(i => i.card.classList.remove('is-winner'));
           return;
         }
 
-        const currency = getCurrency();
-        const unit = getUnitLabel();
+        const minPpu = Math.min(...validItems.map(i => i.ppu));
+        const maxPpu = Math.max(...validItems.map(i => i.ppu));
+        const winners = validItems.filter(i => Math.abs(i.ppu - minPpu) < 0.000001);
 
-        valid.forEach(i => { i.ppu = i.price / i.qty; });
-        const minPpu = Math.min(...valid.map(i => i.ppu));
-        const winner = valid.find(i => i.ppu === minPpu);
+        // If all items have the same price per unit
+        if (minPpu === maxPpu) {
+          summaryCard.className = 'summary-card';
+          summaryBadge.className = 'badge badge-primary';
+          summaryBadge.textContent = 'ราคาเท่ากัน';
+          summaryTitle.textContent = 'ทุกรายการคุ้มค่าเท่ากัน';
+          summaryDetail.textContent = `ราคาเฉลี่ย ${formatPpu(minPpu)} ต่อหน่วย`;
 
-        const tbody = $id('results-body');
-        tbody.innerHTML = '';
-        valid.forEach(item => {
-          const isBest = item.ppu === minPpu;
-          const savings = ((item.ppu - minPpu) / item.ppu * 100).toFixed(1);
-          const tr = document.createElement('tr');
-          if (isBest) tr.classList.add('best');
-          tr.innerHTML = `
-            <td><strong>${escHtml(item.name || `รายการที่ ${item.id}`)}</strong></td>
-            <td>${currency}${formatNumber(item.price)}</td>
-            <td>${formatNumber(item.qty, 0)} ${unit}</td>
-            <td>${currency}${formatNumber(item.ppu, 4)} / ${unit}</td>
-            <td>${isBest ? '<span class="badge badge-success">คุ้มค่าที่สุด!</span>' : `<span class="text-muted text-xs">แพงกว่า ${savings}%</span>`}</td>
-          `;
-          tbody.appendChild(tr);
+          items.forEach(item => {
+            item.card.classList.remove('is-winner');
+            if (item.ppu !== null) {
+              item.tagEl.className = 'unit-price-tag text-muted text-xs';
+              item.tagEl.textContent = 'ราคาต่อหน่วยเท่ากัน';
+            }
+          });
+          return;
+        }
+
+        // Distinct winner exists
+        const best = winners[0];
+        // Find second best for percentage savings
+        const others = validItems.filter(i => !winners.includes(i));
+        const secondBestPpu = Math.min(...others.map(i => i.ppu));
+        const savingsVsNext = ((secondBestPpu - minPpu) / secondBestPpu * 100).toFixed(1);
+
+        summaryCard.className = 'summary-card has-winner';
+        summaryBadge.className = 'badge badge-success';
+        summaryBadge.textContent = 'คุ้มค่าที่สุด';
+        summaryTitle.textContent = `${best.name} ประหยัดที่สุด`;
+        summaryDetail.textContent = `ราคา ${formatPpu(minPpu)} ต่อหน่วย (ประหยัดกว่าตัวเลือกถัดไป ${savingsVsNext}%)`;
+
+        items.forEach(item => {
+          if (item.ppu === null) return;
+
+          if (winners.includes(item)) {
+            item.card.classList.add('is-winner');
+            item.tagEl.className = 'unit-price-tag badge badge-success';
+            item.tagEl.textContent = `คุ้มที่สุด (ประหยัดกว่า ${savingsVsNext}%)`;
+          } else {
+            item.card.classList.remove('is-winner');
+            const diffPct = ((item.ppu - minPpu) / minPpu * 100).toFixed(1);
+            item.tagEl.className = 'unit-price-tag text-danger text-xs font-semibold';
+            item.tagEl.textContent = `แพงกว่า ${diffPct}%`;
+          }
         });
-
-        const wBox = $id('winner-box');
-        wBox.innerHTML = `
-          <div class="result-label">ตัวเลือกที่ประหยัดที่สุด</div>
-          <div class="result-value">${escHtml(winner.name || `รายการที่ ${winner.id}`)}</div>
-          <div class="result-sub">${currency}${formatNumber(winner.ppu, 4)} ต่อ ${unit}</div>
-        `;
-
-        $id('results-section').classList.remove('hidden');
-        $id('results-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
-      $id('unit-type').addEventListener('change', () => {
-        document.querySelectorAll('.unit-label').forEach(el => { el.textContent = getUnitLabel(); });
+      function formatPpu(val) {
+        if (val >= 100) return formatNumber(val, 2);
+        if (val >= 1) return formatNumber(val, 3);
+        return formatNumber(val, 4);
+      }
+
+      function init() {
+        grid.innerHTML = '';
+        nextIndex = 0;
+        createCard('สินค้า A');
+        createCard('สินค้า B');
+        recalculate();
+      }
+
+      // Live calculation on input
+      grid.addEventListener('input', recalculate);
+      grid.addEventListener('change', recalculate);
+
+      addItemBtn.addEventListener('click', () => {
+        const newCard = createCard();
+        recalculate();
+        const priceInput = newCard.querySelector('.item-price');
+        if (priceInput) priceInput.focus();
       });
 
-      $id('add-item-btn').addEventListener('click', () => addItem());
-      $id('compare-btn').addEventListener('click', compare);
+      clearAllBtn.addEventListener('click', () => {
+        init();
+        const firstPrice = grid.querySelector('.item-price');
+        if (firstPrice) firstPrice.focus();
+      });
 
-      addItem('ตัวเลือก A', '', '');
-      addItem('ตัวเลือก B', '', '');
+      init();
     })();
   </script>
 </body>
