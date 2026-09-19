@@ -30,14 +30,6 @@
       user-select: none;
     }
 
-    .slot-machine-box::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #f59e0b, #ec4899, #3b82f6);
-    }
-
     .slot-reel {
       height: 84px;
       display: flex;
@@ -214,7 +206,7 @@
 
       <!-- Main Spin Button -->
       <button id="spin-btn" class="btn btn-primary btn-block spin-btn" aria-label="กดสุ่มเมนูอาหาร">
-        🎰 สุ่มเมนูอาหาร!
+        สุ่มเมนูอาหาร
       </button>
 
       <!-- Sub Actions (ค้นหาร้าน / สุ่มใหม่) -->
@@ -243,7 +235,7 @@
       <!-- Collapsible My Custom Foods (พับไว้ด้านล่างเพื่อความสะอาดตา) -->
       <details class="custom-accordion mt-md">
         <summary>
-          <span>➕ เพิ่มเมนูโปรดของฉันเอง</span>
+          <span>เพิ่มเมนูโปรดของฉันเอง</span>
           <span class="text-xs text-muted" id="custom-count-tag">0 รายการ</span>
         </summary>
         <div style="padding-top:var(--space-sm);">
@@ -352,7 +344,7 @@
           const customPill = document.createElement('button');
           customPill.type = 'button';
           customPill.className = 'quick-pill' + (activeCategory === 'my_custom' ? ' active' : '');
-          customPill.textContent = '⭐ เมนูของฉัน';
+          customPill.textContent = 'เมนูของฉัน';
           customPill.addEventListener('click', () => {
             if (isSpinning) return;
             activeCategory = 'my_custom';
@@ -377,7 +369,7 @@
         if (isSpinning) return;
         isSpinning = true;
         spinBtn.disabled = true;
-        spinBtn.innerHTML = '🎰 กำลังสุ่ม...';
+        spinBtn.innerHTML = 'กำลังสุ่ม...';
         subActionsBox.classList.add('hidden');
 
         slotNameEl.classList.remove('pop-win');
@@ -413,7 +405,7 @@
 
             subActionsBox.classList.remove('hidden');
             spinBtn.disabled = false;
-            spinBtn.innerHTML = '🎰 สุ่มเมนูอาหาร!';
+            spinBtn.innerHTML = 'สุ่มเมนูอาหาร';
             isSpinning = false;
           }
         }
