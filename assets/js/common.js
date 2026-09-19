@@ -152,6 +152,19 @@ function safeFloat(str, fallback = 0) {
   return isNaN(n) ? fallback : n;
 }
 
+/**
+ * Escape HTML special characters.
+ */
+function escHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 /* ============================================================
    SVG icon helper — returns an inline SVG string
    All icons use the same stroke style for consistency.
